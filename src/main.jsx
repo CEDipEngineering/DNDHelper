@@ -18,14 +18,15 @@ export default class Login extends Component {
         
         this.state = {
             listMonsters: [],
-            data: [{
+            data: [],
+            aapple: {
                 "name": "Aapple",
                 "type": "fruit",
                 "alignment": "full neutral",
                 "challenge_rating": 0,
                 "hit_points": "69",
                 "hit_dice": "4d20+2"
-            }],
+            },
             activeTab: "1",
             encounter: {},
             newEncounter: {
@@ -108,14 +109,7 @@ export default class Login extends Component {
         await this.sleep(1000)
         
         this.setState(state => {
-            state.data = [{
-                "name": "Aapple",
-                "type": "fruit",
-                "alignment": "full neutral",
-                "challenge_rating": 0,
-                "hit_points": "69",
-                "hit_dice": "4d20+2"
-            }]
+            state.data = []
             state.proceed = true
         })
         this.getMonsters(this.state.monsterUrl + this.state.filter)
