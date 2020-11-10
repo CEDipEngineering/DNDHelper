@@ -459,7 +459,7 @@ export default class Login extends Component {
         } else {
             username = "Log In"
             accSettings = (
-                <Label>Please <a href="http://localhost:3000/login">Log in</a> to see your info</Label>
+                <Label>Please <Button color="link" onClick={() => {this.props.history.push("/login")}}>Log In</Button> to see your info</Label>
             )
         }
 

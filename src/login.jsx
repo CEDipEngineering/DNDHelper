@@ -82,7 +82,7 @@ export default class Login extends Component {
                     onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Label><a href="http://localhost:3000/register">New? Sign in here.</a></Label>
+                        <Label><Button color="link" onClick={() => {this.props.history.push("/register")}}>New? Sign in here.</Button></Label>
                     </FormGroup>
                     {errMsg}
                 </Form>
