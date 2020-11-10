@@ -73,14 +73,7 @@ export default class Login extends Component {
         this.setState({proceed: false})
         await this.sleep(1000)
         this.setState(state => {
-            state.data = [{
-                "name": "Aapple",
-                "type": "fruit",
-                "alignment": "full neutral",
-                "challenge_rating": 0,
-                "hit_points": "69",
-                "hit_dice": "4d20+2"
-            }]
+            state.data = []
             state.proceed = true
         })
         var name = event.target.value
