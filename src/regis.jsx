@@ -22,7 +22,7 @@ export default class Register extends Component {
     }
 
     register(event) {
-        axios.post("http://localhost:3003/users/register", this.state.user)
+        axios.post("https://backend-dnd.herokuapp.com/users/register", this.state.user)
             .then(resp => {
                 if(Math.floor(resp.status/100) === 2) {
                     this.props.history.push("/login")

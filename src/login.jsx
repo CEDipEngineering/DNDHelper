@@ -23,7 +23,7 @@ export default class Login extends Component {
     }
 
     login() {
-        axios.post("http://localhost:3003/users/authenticate", this.state.user)
+        axios.post("https://backend-dnd.herokuapp.com/users/authenticate", this.state.user)
             .then(resp => {
                 if(Math.floor(resp.status/100) === 2) {
                     // console.log("response auth", resp.data)
