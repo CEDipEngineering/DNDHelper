@@ -17,7 +17,7 @@ class AccountSettings extends React.Component {
     render(){
         let username;
         let accSettings;
-        console.log("Account Setting props: ", this.props)
+        // console.log("Account Setting props: ", this.props)
         if (this.props.state.loggedStatus) {
             username = this.props.state.user.username;
             accSettings = 
