@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import MonsterTable from './components/MonsterTable'
 import EncounterRow from './components/EncounterRow'
 import AccountSettings from './components/AccountSettings'
+import Dice from './components/Dice'
 
 
 export default class Login extends Component {
@@ -386,6 +387,56 @@ export default class Login extends Component {
 
         const activeTab = this.state.activeTab
         // console.log("activeTab: ", activeTab)
+
+        /* For every dice, we should do this: 
+        <Col>
+            <Dice></Dice>
+        </Col>
+        
+        Random numbers: Math.floor(Math.random() * 10) + 1;  // returns a random integer from 1 to 10
+        */
+
+        const diceList = []
+        
+        // TODO: d4 implement:
+        diceList.push(
+        <Col>
+            <Dice number={4} ></Dice>
+        </Col>)
+
+        // TODO: d6 implement:
+        diceList.push(
+            <Col>
+                <Dice></Dice>
+            </Col>)
+
+        // TODO: d8 implement:
+        diceList.push(
+            <Col>
+                <Dice></Dice>
+            </Col>)
+
+        // TODO: d10 implement:
+        diceList.push(
+            <Col>
+                <Dice></Dice>
+            </Col>)
+
+        // TODO: d12 implement:
+        diceList.push(
+            <Col>
+                <Dice></Dice>
+            </Col>)
+
+        // TODO: d20 implement:
+        diceList.push(
+            <Col>
+                <Dice></Dice>
+            </Col>)
+
+
+
+
         return (
             <div>
                 <Nav tabs style={{ marginBottom: "1rem" }}>
@@ -452,6 +503,16 @@ export default class Login extends Component {
                                     <ListGroup>{tableEncounters}</ListGroup>
                                 </Col>
                             </Row>
+                        </Container>
+                        <Container className="dieDiv">
+                            <div>
+                                <h5 id="diceHeader">Roll Dice</h5>
+                                <Container>
+                                    <Row>
+                                        {diceList}    
+                                    </Row>
+                                </Container>
+                            </div>
                         </Container>
                     </TabPane>
                 </TabContent>

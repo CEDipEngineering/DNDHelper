@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+.dieDiv {
+  display: flex;
+  padding: 1rem;
+  margin: 1rem auto;
+  width: 100%;
+  height: fit-content;
+  /* background-color: pink; */
+  justify-content: center;
+}
+
+#diceHeader {
+  text-align: center;
+}
+
+#Dice {
+  background-image: url(https://i.ibb.co/HzKKBMg/Clipart-Key-339726.png);
+  background-size: cover;
+  width: 75px;
+  height: 75px;
+}
