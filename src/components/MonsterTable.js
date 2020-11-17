@@ -24,9 +24,11 @@ class MonsterTable extends React.Component {
                 <tr>
                     <td><a href={"https://open5e.com/monsters/" + monstersArray[i].slug}>{monstersArray[i].name}</a></td>
                     <td>
-                    <RedditShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
-                        <RedditIcon size={"2.5rem"} round={true} borderRadius={"9px"} />
-                    </RedditShareButton>
+                        <div>
+                            <RedditShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
+                                <RedditIcon size={"2rem"} round={true} borderRadius={"9px"} />
+                            </RedditShareButton>
+                        </div>
                     </td>
                     <td>{monstersArray[i].type}</td>
                     <td>{monstersArray[i].alignment}</td>
