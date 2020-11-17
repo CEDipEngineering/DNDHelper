@@ -413,7 +413,7 @@ export default class Login extends Component {
         // TODO: d8 implement:
         diceList.push(
             <Col>
-                <Dice></Dice>
+                <Dice number={8}></Dice>
             </Col>)
 
         // TODO: d10 implement:
