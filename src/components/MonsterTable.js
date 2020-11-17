@@ -1,5 +1,6 @@
 import React, { Component , Fragment} from 'react'
 import { Input, Button } from "reactstrap";
+import { FacebookShareButton, RedditShareButton, TwitterShareButton, WhatsappShareButton, EmailShareButton, FacebookIcon, RedditIcon, EmailIcon, TwitterIcon, WhatsappIcon } from 'react-share';
 
 
 class MonsterTable extends React.Component {
@@ -22,6 +23,11 @@ class MonsterTable extends React.Component {
             rows.push(
                 <tr>
                     <td><a href={"https://open5e.com/monsters/" + monstersArray[i].slug}>{monstersArray[i].name}</a></td>
+                    <td>
+                    <RedditShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
+                        <RedditIcon size={"2.5rem"} round={true} borderRadius={"9px"} />
+                    </RedditShareButton>
+                    </td>
                     <td>{monstersArray[i].type}</td>
                     <td>{monstersArray[i].alignment}</td>
                     <td>{monstersArray[i].challenge_rating}</td>
@@ -42,6 +48,7 @@ class MonsterTable extends React.Component {
                             </tr>
                             <tr>
                                 <th><Button outline value="name" onClick={this.props.allCallbacks.check}>Name</Button></th>
+                                <th><Button outline disable>Share</Button></th>
                                 <th><Button outline value="type" onClick={this.props.allCallbacks.check}>Type</Button></th>
                                 <th><Button outline value="alignment" onClick={this.props.allCallbacks.check}>Alignment</Button></th>
                                 <th><Button outline value="challenge_rating" onClick={this.props.allCallbacks.check}>CR</Button></th>
