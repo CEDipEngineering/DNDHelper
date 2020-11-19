@@ -461,6 +461,14 @@ export default class Login extends Component {
                             className={classnames({ active: activeTab === '3' })}
                             onClick={() => { this.toggle('3'); }}
                         >
+                            Spell List
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '4' })}
+                            onClick={() => { this.toggle('4'); }}
+                        >
                             Encounters
                         </NavLink>
                     </NavItem>
@@ -484,7 +492,7 @@ export default class Login extends Component {
                             </Table>
                         </Container>
                     </TabPane>
-                    <TabPane tabId="3">
+                    <TabPane tabId="4">
                         <Container>
                             <Row>
                                 <Col sm="12">
