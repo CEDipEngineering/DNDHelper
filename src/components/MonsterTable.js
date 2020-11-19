@@ -31,6 +31,9 @@ class MonsterTable extends React.Component {
                             <FacebookShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
                                 <FacebookIcon size={"2rem"} round={true} borderRadius={"9px"} />
                             </FacebookShareButton>
+                            <TwitterShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
+                                <TwitterIcon size={"2rem"} round={true} borderRadius={"9px"} />
+                            </TwitterShareButton>
                         </div>
                     </td>
                     <td>{monstersArray[i].type}</td>
