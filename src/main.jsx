@@ -425,17 +425,15 @@ export default class Login extends Component {
 
         // TODO: d12 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d12">
+                <Dice number={12} ></Dice>
             </Col>)
 
         // TODO: d20 implement:
         diceList.push(
-            <Col> 
-                            <Tooltip title="Delete">
+            <Col className="d20"> 
 
-                <Dice number={20}></Dice>
-</Tooltip>
+                <Dice number={20} ></Dice>
             </Col>)
 
 
