@@ -74,7 +74,6 @@
   background-size: cover;
 }
 
-
 .d10{
   background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeOsJWJUC1YMJ7moWTAqgnrHgFWaiu5DKF4w&usqp=CAU);
   background-size: 85%;
@@ -83,3 +82,9 @@
 
 }
 
+.d6{
+  background-image: url(https://i.ibb.co/N3LYnpH/d6.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
+}
