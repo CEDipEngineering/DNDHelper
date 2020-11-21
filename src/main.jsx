@@ -512,6 +512,7 @@ export default class Login extends Component {
                                     <Row>
                                         {diceList}    
                                     </Row>
+                                    <p id="imgSrc">Images from <a href={"https://thenounproject.com/"}>The Noun Project</a></p>
                                 </Container>
                             </div>
                         </Container>
