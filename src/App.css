@@ -62,6 +62,9 @@
 
 }
 
+
+/* Images from https://thenounproject.com/ */
+
 .d20{
   background-image: url(https://i.ibb.co/HzKKBMg/Clipart-Key-339726.png);
   background-size: 75%;
@@ -79,7 +82,13 @@
   background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeOsJWJUC1YMJ7moWTAqgnrHgFWaiu5DKF4w&usqp=CAU);
   background-size: 85%;
   background-repeat: no-repeat;
-    background-position: center;
+  background-position: center;
+}
 
+.d4{
+  background-image: url(https://i.ibb.co/cJ6GG9n/d4.png);
+  background-size: 85%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 

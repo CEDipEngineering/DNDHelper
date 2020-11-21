@@ -401,7 +401,7 @@ export default class Login extends Component {
         
         // TODO: d4 implement:
         diceList.push(
-        <Col>
+        <Col  className="d4">
             <Dice number={4} ></Dice>
         </Col>)
 
@@ -432,7 +432,6 @@ export default class Login extends Component {
         // D20 implement:
         diceList.push(
             <Col className="d20"> 
-
                 <Dice number={20} ></Dice>
             </Col>)
 
