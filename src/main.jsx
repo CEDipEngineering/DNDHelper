@@ -8,6 +8,7 @@ import MonsterTable from './components/MonsterTable'
 import EncounterRow from './components/EncounterRow'
 import AccountSettings from './components/AccountSettings'
 import Dice from './components/Dice'
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 export default class Login extends Component {
@@ -416,22 +417,23 @@ export default class Login extends Component {
                 <Dice></Dice>
             </Col>)
 
-        // TODO: d10 implement:
+        // D10 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d10">
+                <Dice number={10} ></Dice>
             </Col>)
 
-        // TODO: d12 implement:
+        // D12 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d12">
+                <Dice number={12} ></Dice>
             </Col>)
 
-        // TODO: d20 implement:
+        // D20 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d20"> 
+
+                <Dice number={20} ></Dice>
             </Col>)
 
 

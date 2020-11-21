@@ -3,6 +3,8 @@ import { Input, Button } from "reactstrap";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import ReactTooltip from "react-tooltip";
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 class Dice extends React.Component {
@@ -41,7 +43,11 @@ class Dice extends React.Component {
     render(){
         return (
         <React.Fragment>
+      <Tooltip title={"Dice " + this.props.number}>
+
             <IconButton id={"Dice"} onClick={this.handleClick}></IconButton>
+        </Tooltip>
+
             <Snackbar
                 anchorOrigin={{
                 vertical: 'bottom',
@@ -56,6 +62,7 @@ class Dice extends React.Component {
                     <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleClose}>
                         <CloseIcon fontSize="small" />
                     </IconButton>
+                    
                 </React.Fragment>
                 }
             />
