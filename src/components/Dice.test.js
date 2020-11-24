@@ -33,7 +33,6 @@ it("random function works correctly for dice 20", () => {
     expect(value).toBeGreaterThanOrEqual(1);
     expect(value).toBeLessThan(wrapper.instance().props.number+1);
   }
-  
   });
   
   
@@ -49,8 +48,22 @@ it("random function works correctly for dice 12", () => {
     expect(value).toBeGreaterThanOrEqual(1);
     expect(value).toBeLessThan(wrapper.instance().props.number+1);
   }
-  
   });
   
+   
+it("random function works correctly for dice 10", () => {
+  
+  const wrapper = shallow(
+      <Dice {...{"number": 10}}/>
+    );
+
+  let value;
+  for (let i=0; i<100;i++){
+    value = wrapper.instance().roll()
+    expect(value).toBeGreaterThanOrEqual(1);
+    expect(value).toBeLessThan(wrapper.instance().props.number+1);
+  }
+  
+  });
 
  });
