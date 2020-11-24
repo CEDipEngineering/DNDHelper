@@ -4,6 +4,12 @@ import axios from 'axios'
 import React, { Component } from 'react'
 import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, ListGroupItem, Input, Row, Col, Form, FormGroup, Label, Collapse, ButtonGroup } from "reactstrap";
 import classnames from 'classnames';
+import MonsterTable from './components/MonsterTable'
+import EncounterRow from './components/EncounterRow'
+import AccountSettings from './components/AccountSettings'
+import Dice from './components/Dice'
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 export default class Login extends Component {
     constructor(props) {
@@ -13,9 +19,9 @@ export default class Login extends Component {
             if (this.props.state.user.encounters.length > 0) {
                 stdSel = this.props.state.user.encounters[0].name
             }
-        } 
-        
-        
+        }
+
+
         this.state = {
             listMonsters: [],
             data: [],
@@ -53,7 +59,7 @@ export default class Login extends Component {
             idList: []
             
         }
-    
+
         // console.log("encounter selected: ", this.state.encSelected)
 
         this.getMonsters = this.getMonsters.bind(this);
@@ -75,7 +81,7 @@ export default class Login extends Component {
     }
 
     async check(event) {
-        this.setState({proceed: false})
+        this.setState({ proceed: false })
         await this.sleep(1000)
         this.setState(state => {
             state.data = []
@@ -104,7 +110,7 @@ export default class Login extends Component {
             state.proceed = false
         })
         await this.sleep(1000)
-        
+
         this.setState(state => {
             state.data = []
             state.proceed = true
@@ -116,7 +122,7 @@ export default class Login extends Component {
 
 
     getMonsters(url) {
-        axios.get(url)
+       axios.get(url)
             .then(resp => {
                 // console.log(resp.data.results)
                 var { data } = this.state
@@ -128,18 +134,18 @@ export default class Login extends Component {
                 url = resp.data.next
                 var proceed = this.state.proceed
                 // console.log("URL", url)
-                if (url && proceed){
+                if (url && proceed) {
                     this.getMonsters(url)
-                } 
-            })  
+                }
+            })
     }
-    
+
     componentDidMount() {
         var url = "https://api.open5e.com/monsters/"
-    
-        this.getMonsters(url)           
+
+        this.getMonsters(url)
     }
-    
+
     toggleCollapse(nombre) {
         var encounters = this.state.user.encounters
         for (var i in encounters) {
@@ -150,9 +156,9 @@ export default class Login extends Component {
                 let index = i
                 this.setState(state => {
                     state.user.encounters[index].isOpen = !open
-                })      
+                })
             }
-            
+
         }
         this.forceUpdate()
         // console.log("what", this.state.user.encounters)
@@ -167,10 +173,10 @@ export default class Login extends Component {
             })
             // console.log("state", this.state)
         }
-        
+
     }
 
-    newEncounter(){
+    newEncounter() {
         const encounters = this.state.user.encounters
         const newEnc = this.state.newEncounter
         encounters.push(newEnc)
@@ -179,7 +185,7 @@ export default class Login extends Component {
             state.encSelected = newEnc.name
         })
 
-        var url = "http://localhost:3003/users/user/" + this.state.user._id
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
                 // console.log("resp", resp.data)
@@ -222,16 +228,16 @@ export default class Login extends Component {
     }
 
     editInfo(event) {
-        var url = "http://localhost:3003/users/user/" + this.state.user._id
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
-                this.setState((state) => {
+               this.setState((state) => {
                     state.user = resp.data
                     state.loggedUser = resp.data.username
                 })
             })
             .catch(error => {
-                console.log("error",error)
+                console.log("error", error)
             })
         this.forceUpdate();
     }
@@ -240,7 +246,7 @@ export default class Login extends Component {
         const name = event.target.value
         const encs = this.state.user.encounters
         // console.log("encounters: ", encs)
-        const index = encs.map(enc => {return enc.name}).indexOf(name)
+        const index = encs.map(enc => { return enc.name }).indexOf(name)
         // console.log("index", index)
         encs.splice((index), 1)
         // console.log("encounters updated: ", encs)
@@ -248,7 +254,7 @@ export default class Login extends Component {
         this.setState(state => {
             state.user.encounters = encs
         })
-        var url = "http://localhost:3003/users/user/" + this.state.user._id
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
                 this.setState((state) => {
@@ -256,7 +262,7 @@ export default class Login extends Component {
                 })
             })
             .catch(error => {
-                console.log("error",error)
+                console.log("error", error)
             })
         this.forceUpdate();
 
@@ -281,7 +287,7 @@ export default class Login extends Component {
                     state.user.encounters = encounters
                 })
                 // console.log("user do state", this.state)
-                var url1 = "http://localhost:3003/users/user/" + this.state.user._id
+                var url1 = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
                 axios.put(url1, this.state.user)
                     .then(resp => {
                         // console.log("state user", this.state.user)
@@ -290,24 +296,25 @@ export default class Login extends Component {
                         })
                     })
                     .catch(error => {
-                        console.log("error",error)
+                        console.log("error", error)
                     })
-                
+
             })
             .catch(err => console.log("error", err))
         // console.log("user dps da req", this.state.user)
-        
+
     }
 
     removeMonster(event) {
+        // console.log("removeEvent: ", event)
         const encounterName = event.target.id
         const monsterName = event.target.value
         // console.log("nome do encontro", encounterName)
         // console.log("nome do monstro", monsterName)
         const encs = this.state.user.encounters
-        const index = encs.map(enc => {return enc.name}).indexOf(encounterName)
+        const index = encs.map(enc => { return enc.name }).indexOf(encounterName)
         const encounterMonsters = encs[index].monsters
-        const indexOfMonster = encounterMonsters.map(monst => {return monst.name}).indexOf(monsterName)
+        const indexOfMonster = encounterMonsters.map(monst => { return monst.name }).indexOf(monsterName)
         // console.log("index do monstro", indexOfMonster)
         encounterMonsters.splice(indexOfMonster, 1)
 
@@ -315,7 +322,7 @@ export default class Login extends Component {
             state.user.encounters = encs
         })
 
-        var url = "http://localhost:3003/users/user/" + this.state.user._id
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
 
         axios.put(url, this.state.user)
             .then(resp => {
@@ -324,7 +331,7 @@ export default class Login extends Component {
                 })
             })
             .catch(error => {
-                console.log("error",error)
+                console.log("error", error)
             })
         this.forceUpdate();
     }
@@ -333,16 +340,16 @@ export default class Login extends Component {
         const encounterName = event.target.id
         const monsterName = event.target.name
         const encs = this.state.user.encounters
-        const index = encs.map(enc => {return enc.name}).indexOf(encounterName)
+        const index = encs.map(enc => { return enc.name }).indexOf(encounterName)
         const encounterMonsters = encs[index].monsters
-        const indexOfMonster = encounterMonsters.map(monst => {return monst.name}).indexOf(monsterName)
+        const indexOfMonster = encounterMonsters.map(monst => { return monst.name }).indexOf(monsterName)
         // console.log("valor do evento", event.target.value)
         var handleState = (state, event) => {
             state.user.encounters[index].monsters[indexOfMonster].hit_points = event.target.value
         }
-        this.setState(handleState(this.state,event))
+        this.setState(handleState(this.state, event))
 
-        var url = "http://localhost:3003/users/user/" + this.state.user._id
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
 
         axios.put(url, this.state.user)
             .then(resp => {
@@ -352,10 +359,11 @@ export default class Login extends Component {
                 })
             })
             .catch(error => {
-                console.log("error",error)
+                console.log("error", error)
             })
         this.forceUpdate();
     }
+
     render() {
 
         const makeRandomEncounter = () => {
@@ -367,12 +375,11 @@ export default class Login extends Component {
             if (n===0 || cr===0){
                 alert("fill all informations");
             }else{
-                for (let i = 0; i<n; i++){
+                for (let i = 0; i<n; i++) {
                     let monster = monsterList[Math.floor(Math.random() * 50)];
                     if (monster.challenge_rating === cr){
                         alert(monster.name);
                         randomMonsters.push(monster)
-                        alert(randomMonsters.length);
                     }else{
                         i--;
                     };
@@ -382,111 +389,87 @@ export default class Login extends Component {
             this.setState({randomMonsters: randomMonsters})
         };
 
-        // console.log("state", this.state)
         var monstersArray = this.state.data
-        // console.log("monsterArray: ", monstersArray)
-        var tableMonsters = monstersArray.map(({slug, name, type, alignment, challenge_rating, hit_points, hit_dice}) => {        
-            // console.log(slug)
-            return (
-                <tr>
-                    <td><a href={"https://open5e.com/monsters/" + slug}>{name}</a></td>
-                    <td>{type}</td>
-                    <td>{alignment}</td>
-                    <td>{challenge_rating}</td>
-                    <td>{hit_points}/{hit_dice}</td>
-                    <td><Button color="success" value={name} onClick={this.addMonster}>+</Button></td>
-                </tr>
-            )
-        })
+        var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.check, addMonster: this.addMonster }} />;
 
         var encountersArray = this.state.user.encounters
-        if (encountersArray){
-            var listEncounters = encountersArray.map(({name, monsters, isOpen}) => {
-                var nameEnc = name
-                var monsterEncounters = monsters.map(({slug, name, armor_class, hit_points, hit_dice, senses, languages}) => {
-                    return (
-                        <tr>
-                            <td><a href={"https://open5e.com/monsters/" + slug}>{name}</a></td>
-                            <td>{armor_class}</td>
-                            <td><Input type="text" id={nameEnc} name={name} value={hit_points} onChange={this.handleMonsterLife} /></td>
-                            <td>{senses}</td>
-                            <td>{languages}</td>
-                            <td><Button color="danger" value={name} id={nameEnc} onClick={this.removeMonster}>-</Button></td>
-                            
-                        </tr>
-                    )
-                })
-                return (
-                    <ListGroupItem>
-                        <ButtonGroup>
-                            <Button color="info" onClick={() => {this.toggleCollapse(name)}} style={{marginBottom: "1rem", marginLeft: "0.5rem"}}>{name}</Button> 
-                            <Button color="danger" value={name} onClick={this.deleteEncounter} style={{marginBottom: "1rem",  marginRight: "0.5rem"}}>Delete</Button> 
-                        </ButtonGroup>
-                        <Collapse isOpen={isOpen}>
-                            <Container>
-                                <Table borderless striped>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Armor Class</th>
-                                            <th>Hit Points</th>
-                                            <th>Senses</th>
-                                            <th>Languages</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody> {monsterEncounters} </tbody>
-                                </Table>
-                            </Container>
-                        </Collapse>
-                    </ListGroupItem>
+        var tableEncounters = <EncounterRow encounterInfo={encountersArray} allCallbacks={{ handleLife: this.handleMonsterLife, remove: this.removeMonster, toggleCollapse: this.toggleCollapse, deleteEncounter: this.deleteEncounter }} />
 
-                )
-            })
-            var selectEncounters = encountersArray.map(({name}) => {
-                return (
-                    <option>{name}</option>
-                )
-            })
+        // console.log(encountersArray)
+        var selectEncounters = [];
+        if (encountersArray) {
+            for (let i = 0; i < encountersArray.length; i++) {
+                selectEncounters.push(<option>{encountersArray[i].name}</option>)
+            }
         }
+
         // console.log("props", this.props)
         // console.log("tableMonsters:", tableMonsters)
-        let username;
-        let accSettings;
-        if (this.props.state.loggedStatus) {
-            username = this.state.loggedUser
-            accSettings = (
-                <Form>
-                    <FormGroup>
-                        <Label>Username</Label>
-                        <Input type="name" name="username" value={this.state.user.username} onChange={this.handleChange} /> 
-                    </FormGroup>
-                    <FormGroup>
-                        <Label>E-mail:</Label>
-                        <Input type="email" name="email" value={this.state.user.email} onChange={this.handleChange} />
-                    </FormGroup>
-                    <Button color="primary" onClick={this.editInfo}>Edit Info</Button>
-                </Form>
-            )
-        } else {
-            username = "Log In"
-            accSettings = (
-                <Label>Please <Button color="link" onClick={() => {this.props.history.push("/login")}}>Log In</Button> to see your info</Label>
-            )
-        }
+        // console.log("props state: ", this.props.state)
+        const settingsPage = <AccountSettings state = {this.props.state} allCallbacks={{handleChange: this.handleChange, editInfo: this.editInfo}}/>
 
- 
 
         const activeTab = this.state.activeTab
         // console.log("activeTab: ", activeTab)
+
+        /* For every dice, we should do this: 
+        <Col>
+            <Dice></Dice>
+        </Col>
+        
+        Random numbers: Math.floor(Math.random() * 10) + 1;  // returns a random integer from 1 to 10
+        */
+
+        const diceList = []
+        
+        // TODO: d4 implement:
+        diceList.push(
+        <Col  className="d4">
+            <Dice number={4} ></Dice>
+        </Col>)
+
+        // TODO: d6 implement:
+        diceList.push(
+            <Col className="d6">
+                <Dice number={6}></Dice>
+            </Col>)
+
+        // TODO: d8 implement:
+        diceList.push(
+            <Col className="d8">
+                <Dice number={8}></Dice>
+            </Col>)
+
+        // D10 implement:
+        diceList.push(
+            <Col className="d10">
+                <Dice number={10} ></Dice>
+            </Col>)
+
+        // D12 implement:
+        diceList.push(
+            <Col className="d12">
+                <Dice number={12} ></Dice>
+            </Col>)
+
+        // D20 implement:
+        diceList.push(
+            <Col className="d20"> 
+                <Dice number={20} ></Dice>
+            </Col>)
+
+
+
+
         return (
             <div>
-                <Nav tabs style={{marginBottom: "1rem"}}>
+                <Nav tabs style={{ marginBottom: "1rem" }}>
                     <NavItem>
                         <NavLink
                             className={classnames({ active: activeTab === '1' })}
                             onClick={() => { this.toggle('1'); }}
                         >
-                            {username}
+                            {this.props.state.loggedStatus ? this.props.state.user.username : "Log In"}
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -512,29 +495,16 @@ export default class Login extends Component {
                             <Row>
                                 <Col sm="12">
                                     <h4>Account Settings</h4>
-                                    {accSettings}
+                                    {settingsPage}
                                 </Col>
                             </Row>
                         </Container>
                     </TabPane>
                     <TabPane tabId="2">
-                        <Container> 
+                        <Container>
                             <Input type="select" onChange={this.changeEncounter}> {selectEncounters} </Input>
                             <Table borderless striped>
-                                <thead>
-                                    <tr>
-                                        <th><Input type="text" onChange={this.filter} value={this.state.filter} /></th>
-                                        <th><Button id="filter" onClick={this.search}>Search</Button></th>
-                                    </tr>
-                                    <tr>
-                                        <th><Button outline value="name" onClick={this.check}>Name</Button></th>
-                                        <th><Button outline value="type" onClick={this.check}>Type</Button></th>
-                                        <th><Button outline value="alignment" onClick={this.check}>Alignment</Button></th>
-                                        <th><Button outline value="challenge_rating" onClick={this.check}>CR</Button></th>
-                                        <th><Button outline value="hit_points" onClick={this.check}>Hit Points</Button></th>
-                                    </tr>
-                                </thead>
-                                <tbody> {tableMonsters} </tbody>
+                                {tableMonsters}
                             </Table>
                         </Container>
                     </TabPane>
@@ -542,7 +512,7 @@ export default class Login extends Component {
                         <Container>
                             <Row>
                                 <Col sm="12">
-                                    <h4>Encounters List</h4> 
+                                    <h4>Encounters List</h4>
                                     <Form>
                                         <FormGroup>
                                             <Input type="text" placeholder="Your new encounter" value={this.state.newEncounter.name}
@@ -566,14 +536,25 @@ export default class Login extends Component {
                                             {this.state.randomMonsters}
                                        </FormGroup>
                                     </Form>
-                                    
 
-                                    <ListGroup>{listEncounters}</ListGroup>
+
+                                    <ListGroup>{tableEncounters}</ListGroup>
                                 </Col>
                             </Row>
                         </Container>
+                        <Container className="dieDiv">
+                            <div>
+                                <h5 id="diceHeader">Roll Dice</h5>
+                                <Container>
+                                    <Row>
+                                        {diceList}    
+                                    </Row>
+                                    <p id="imgSrc">Images from <a href={"https://thenounproject.com/"}>The Noun Project</a></p>
+                                </Container>
+                            </div>
+                        </Container>
                     </TabPane>
                 </TabContent>
-                
+
             </div>
         ) } }
