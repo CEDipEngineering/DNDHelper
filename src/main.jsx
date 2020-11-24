@@ -45,7 +45,12 @@ export default class Login extends Component {
             monsterUrl: "https://api.open5e.com/monsters/?search=",
             filter: "",
             filtering: "",
-            proceed: true
+            proceed: true,
+
+            cr: 0,
+            n: 0,
+            randomMonsters: [],
+            idList: []
             
         }
     
@@ -78,7 +83,6 @@ export default class Login extends Component {
         })
         var name = event.target.value
         var url = "https://api.open5e.com/monsters/?ordering=" + name
-        console.log("URL PORRA", url)
         this.getMonsters(url)
     }
 
@@ -108,13 +112,14 @@ export default class Login extends Component {
         this.getMonsters(this.state.monsterUrl + this.state.filter)
     }
 
+
+
+
     getMonsters(url) {
-        console.log(url)
         axios.get(url)
             .then(resp => {
                 // console.log(resp.data.results)
                 var { data } = this.state
-                console.log("response of getmonster", resp.data.results)
                 var newdata = data.concat(resp.data.results)
                 // console.log("data",data)
                 this.setState({
@@ -220,7 +225,6 @@ export default class Login extends Component {
         var url = "http://localhost:3003/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
-                console.log("resp", resp.data)
                 this.setState((state) => {
                     state.user = resp.data
                     state.loggedUser = resp.data.username
@@ -247,7 +251,6 @@ export default class Login extends Component {
         var url = "http://localhost:3003/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
-                console.log("resp", resp.data)
                 this.setState((state) => {
                     state.user = resp.data
                 })
@@ -268,9 +271,7 @@ export default class Login extends Component {
         // console.log("user encounters", encounters)
         axios.get(url)
             .then(resp => {
-                console.log("Response", resp.data.results)
                 for (var i in encounters) {
-                    console.log(encounters[i].name, selected)
                     if (encounters[i].name === selected) {
                         encounters[i].monsters.push(resp.data.results[0])
                     }
@@ -318,7 +319,6 @@ export default class Login extends Component {
 
         axios.put(url, this.state.user)
             .then(resp => {
-                console.log("resp", resp.data)
                 this.setState((state) => {
                     state.user = resp.data
                 })
@@ -357,6 +357,30 @@ export default class Login extends Component {
         this.forceUpdate();
     }
     render() {
+
+        const makeRandomEncounter = () => {
+            alert("making random encounter...");
+            var n = this.state.n;
+            var cr = this.state.cr;
+            var monsterList = this.state.data;
+            var randomMonsters = []
+            if (n===0 || cr===0){
+                alert("fill all informations");
+            }else{
+                for (let i = 0; i<n; i++){
+                    let monster = monsterList[Math.floor(Math.random() * 50)];
+                    if (monster.challenge_rating === cr){
+                        alert(monster.name);
+                        randomMonsters.push(monster)
+                        alert(randomMonsters.length);
+                    }else{
+                        i--;
+                    };
+                };
+            }     
+            console.log('randomMonsters', randomMonsters);
+            this.setState({randomMonsters: randomMonsters})
+        };
 
         // console.log("state", this.state)
         var monstersArray = this.state.data
@@ -526,7 +550,21 @@ export default class Login extends Component {
                                         </FormGroup>
                                         <FormGroup>
                                             <Button color="success" onClick={this.newEncounter}>Add Encounter</Button>
-                                        </FormGroup>                                            
+                                        </FormGroup> <br />                                            
+
+                                        <h5> Generate Random Encounter </h5>
+                                        <FormGroup>
+
+                                            Amount of monsters: <input type="number"
+                                            onChange={(e) => {this.setState({n: e.target.value})}} 
+                                            min="1" max="10"/><br />
+                                            Select cr of monsters: <input type="number" 
+                                            onChange={(e) => {this.setState({cr: e.target.value})}}
+                                            min="0" max="9"/><br />
+
+                                            <button onClick={makeRandomEncounter}> load encounter </button>
+                                            {this.state.randomMonsters}
+                                       </FormGroup>
                                     </Form>
                                     
 
@@ -538,6 +576,4 @@ export default class Login extends Component {
                 </TabContent>
                 
             </div>
-        )
-    }
-}
+        ) } }
