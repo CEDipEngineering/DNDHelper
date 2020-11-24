@@ -321,7 +321,7 @@ export default class Login extends Component {
             state.user.encounters = encs
         })
 
-        var url = "https://backend-dnd.herokuapp.com//users/user/" + this.state.user._id
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
 
         axios.put(url, this.state.user)
             .then(resp => {
