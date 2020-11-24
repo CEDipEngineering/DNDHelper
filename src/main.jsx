@@ -53,6 +53,7 @@ export default class Login extends Component {
             filtering: "",
             proceed: true,
 
+            randomEncouterName: "",
             cr: 0,
             n: 0,
             randomMonsters: [],
@@ -338,7 +339,7 @@ export default class Login extends Component {
 
     handleMonsterLife(event) {
         const encounterName = event.target.id
-        const monsterName = event.target.name
+        const monsterName = event.target.name0
         const encs = this.state.user.encounters
         const index = encs.map(enc => { return enc.name }).indexOf(encounterName)
         const encounterMonsters = encs[index].monsters
@@ -365,28 +366,48 @@ export default class Login extends Component {
     }
 
     render() {
-
         const makeRandomEncounter = () => {
-            alert("making random encounter...");
+            var name = this.state.randomEncounterName;
             var n = this.state.n;
             var cr = this.state.cr;
             var monsterList = this.state.data;
             var randomMonsters = []
-            if (n===0 || cr===0){
+            if (n===0 || cr===0 || name===""){
                 alert("fill all informations");
             }else{
                 for (let i = 0; i<n; i++) {
                     let monster = monsterList[Math.floor(Math.random() * 50)];
                     if (monster.challenge_rating === cr){
-                        alert(monster.name);
                         randomMonsters.push(monster)
                     }else{
                         i--;
                     };
                 };
-            }     
-            console.log('randomMonsters', randomMonsters);
-            this.setState({randomMonsters: randomMonsters})
+            } 
+        const encounters = this.state.user.encounters;
+        const newEnc =  {
+            "name": name,
+            "monsters": randomMonsters,
+            "isOpen": true
+        };
+        encounters.push(newEnc);
+        this.setState((state) => {
+            state.user.encounters = encounters;
+            state.encSelected = newEnc.name;
+        });
+
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
+        axios.put(url, this.state.user)
+            .then(resp => {
+                // console.log("resp", resp.data)
+                this.setState((state) => {
+                    state.user = resp.data
+                })
+            })
+            .catch(error => {
+                // console.log("error",error)
+            })
+        this.forceUpdate();
         };
 
         var monstersArray = this.state.data
@@ -525,6 +546,10 @@ export default class Login extends Component {
                                         <h5> Generate Random Encounter </h5>
                                         <FormGroup>
 
+                                            Encounter Name: <input type="text"
+                                            onChange={(e) => {
+                                                this.setState({randomEncounterName: e.target.value})}
+                                            }/><br />
                                             Amount of monsters: <input type="number"
                                             onChange={(e) => {this.setState({n: e.target.value})}} 
                                             min="1" max="10"/><br />
