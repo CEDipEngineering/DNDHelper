@@ -27,11 +27,13 @@ it("random function works correctly", () => {
       <Dice {...{"number": 20}}/>
     );
 
-  const value = wrapper.instance().roll()
-  expect(value).toBeGreaterThanOrEqual(1);
-  console.log(wrapper.props("number"))
-  expect(value).toBeLessThan(wrapper.instance().props.number+1);
-  // // expect(wrapper.state("setOpen")).toBe(true);
+  let value;
+  for (let i=0; i<100;i++){
+    value = wrapper.instance().roll()
+    expect(value).toBeGreaterThanOrEqual(1);
+    expect(value).toBeLessThan(wrapper.instance().props.number+1);
+  }
+  
   });
   
 
