@@ -21,10 +21,26 @@ it("component renders correctly", () => {
 });
 
 
-it("random function works correctly", () => {
+it("random function works correctly for dice 20", () => {
   
   const wrapper = shallow(
       <Dice {...{"number": 20}}/>
+    );
+
+  let value;
+  for (let i=0; i<100;i++){
+    value = wrapper.instance().roll()
+    expect(value).toBeGreaterThanOrEqual(1);
+    expect(value).toBeLessThan(wrapper.instance().props.number+1);
+  }
+  
+  });
+  
+  
+it("random function works correctly for dice 12", () => {
+  
+  const wrapper = shallow(
+      <Dice {...{"number": 12}}/>
     );
 
   let value;
