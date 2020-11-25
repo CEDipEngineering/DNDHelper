@@ -52,8 +52,59 @@
 }
 
 #Dice {
-  background-image: url(https://i.ibb.co/HzKKBMg/Clipart-Key-339726.png);
+  /* background-image: url(https://i.ibb.co/HzKKBMg/Clipart-Key-339726.png); */
   background-size: cover;
   width: 75px;
-  height: 75px;
+  height: 100px;
+  margin-left: 5px;
+  margin-right: 5px;
+
+
+}
+
+
+/* Images from https://thenounproject.com/ */
+
+.d20{
+  background-image: url(https://i.ibb.co/gvK5xGj/d20.png);
+  background-size: 65%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.d12{
+  background-image: url(https://i.ibb.co/ygKb5Ff/d12.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
+}
+
+.d10{
+  background-image: url(https://i.ibb.co/zbyfb0t/d10.png);
+  background-size: 65%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.d4{
+  background-image: url(https://i.ibb.co/cJ6GG9n/d4.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
+}
+
+
+.d6{
+  background-image: url(https://i.ibb.co/N3LYnpH/d6.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
+}
+
+
+.d8{
+  background-image: url(https://static.thenounproject.com/png/2453699-200.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 65%;
 }

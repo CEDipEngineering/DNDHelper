@@ -9,6 +9,7 @@ import SpellTable from './components/SpellTable'
 import EncounterRow from './components/EncounterRow'
 import AccountSettings from './components/AccountSettings'
 import Dice from './components/Dice'
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 export default class Login extends Component {
@@ -53,8 +54,13 @@ export default class Login extends Component {
             spellUrl :"https://api.open5e.com/spells/?search=",
             filter: "",
             filtering: "",
-            proceed: true
+            proceed: true,
 
+            cr: 0,
+            n: 0,
+            randomMonsters: [],
+            idList: []
+            
         }
 
         // console.log("encounter selected: ", this.state.encSelected)
@@ -87,7 +93,6 @@ export default class Login extends Component {
         })
         var name = event.target.value
         var url = "https://api.open5e.com/monsters/?ordering=" + name
-        console.log("URL PORRA", url)
         this.getMonsters(url)
     }
 
@@ -132,13 +137,14 @@ export default class Login extends Component {
         this.getMonsters(this.state.monsterUrl + this.state.filter)
     }
 
+
+
+
     getMonsters(url) {
-        // console.log(url)
-        axios.get(url)
+       axios.get(url)
             .then(resp => {
                 //console.log(resp.data.results)
                 var { data } = this.state
-                // console.log("response of getmonster", resp.data.results)
                 var newdata = data.concat(resp.data.results)
                 // console.log("data",data)
                 this.setState({
@@ -267,8 +273,7 @@ export default class Login extends Component {
         var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
-                // console.log("resp", resp.data)
-                this.setState((state) => {
+               this.setState((state) => {
                     state.user = resp.data
                     state.loggedUser = resp.data.username
                 })
@@ -294,7 +299,6 @@ export default class Login extends Component {
         var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
-                // console.log("resp", resp.data)
                 this.setState((state) => {
                     state.user = resp.data
                 })
@@ -315,9 +319,7 @@ export default class Login extends Component {
         // console.log("user encounters", encounters)
         axios.get(url)
             .then(resp => {
-                // console.log("Response", resp.data.results)
                 for (var i in encounters) {
-                    // console.log(encounters[i].name, selected)
                     if (encounters[i].name === selected) {
                         encounters[i].monsters.push(resp.data.results[0])
                     }
@@ -362,11 +364,10 @@ export default class Login extends Component {
             state.user.encounters = encs
         })
 
-        var url = "https://backend-dnd.herokuapp.com//users/user/" + this.state.user._id
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
 
         axios.put(url, this.state.user)
             .then(resp => {
-                // console.log("resp", resp.data)
                 this.setState((state) => {
                     state.user = resp.data
                 })
@@ -407,6 +408,29 @@ export default class Login extends Component {
 
     render() {
 
+        const makeRandomEncounter = () => {
+            alert("making random encounter...");
+            var n = this.state.n;
+            var cr = this.state.cr;
+            var monsterList = this.state.data;
+            var randomMonsters = []
+            if (n===0 || cr===0){
+                alert("fill all informations");
+            }else{
+                for (let i = 0; i<n; i++) {
+                    let monster = monsterList[Math.floor(Math.random() * 50)];
+                    if (monster.challenge_rating === cr){
+                        alert(monster.name);
+                        randomMonsters.push(monster)
+                    }else{
+                        i--;
+                    };
+                };
+            }     
+            console.log('randomMonsters', randomMonsters);
+            this.setState({randomMonsters: randomMonsters})
+        };
+
         var monstersArray = this.state.data
         var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
 
@@ -445,38 +469,38 @@ export default class Login extends Component {
         
         // TODO: d4 implement:
         diceList.push(
-        <Col>
+        <Col  className="d4">
             <Dice number={4} ></Dice>
         </Col>)
 
         // TODO: d6 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d6">
+                <Dice number={6}></Dice>
             </Col>)
 
         // TODO: d8 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d8">
+                <Dice number={8}></Dice>
             </Col>)
 
-        // TODO: d10 implement:
+        // D10 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d10">
+                <Dice number={10} ></Dice>
             </Col>)
 
-        // TODO: d12 implement:
+        // D12 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d12">
+                <Dice number={12} ></Dice>
             </Col>)
 
-        // TODO: d20 implement:
+        // D20 implement:
         diceList.push(
-            <Col>
-                <Dice></Dice>
+            <Col className="d20"> 
+                <Dice number={20} ></Dice>
             </Col>)
 
 
@@ -557,7 +581,21 @@ export default class Login extends Component {
                                         </FormGroup>
                                         <FormGroup>
                                             <Button color="success" onClick={this.newEncounter}>Add Encounter</Button>
-                                        </FormGroup>
+                                        </FormGroup> <br />                                            
+
+                                        <h5> Generate Random Encounter </h5>
+                                        <FormGroup>
+
+                                            Amount of monsters: <input type="number"
+                                            onChange={(e) => {this.setState({n: e.target.value})}} 
+                                            min="1" max="10"/><br />
+                                            Select cr of monsters: <input type="number" 
+                                            onChange={(e) => {this.setState({cr: e.target.value})}}
+                                            min="0" max="9"/><br />
+
+                                            <button onClick={makeRandomEncounter}> load encounter </button>
+                                            {this.state.randomMonsters}
+                                       </FormGroup>
                                     </Form>
 
 
@@ -572,6 +610,7 @@ export default class Login extends Component {
                                     <Row>
                                         {diceList}    
                                     </Row>
+                                    <p id="imgSrc">Images from <a href={"https://thenounproject.com/"}>The Noun Project</a></p>
                                 </Container>
                             </div>
                         </Container>
@@ -579,6 +618,4 @@ export default class Login extends Component {
                 </TabContent>
 
             </div>
-        )
-    }
-}
+        ) } }
