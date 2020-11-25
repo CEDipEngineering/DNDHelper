@@ -422,37 +422,31 @@ export default class Login extends Component {
 
         const diceList = []
         
-        // TODO: d4 implement:
         diceList.push(
         <Col  className="d4">
             <Dice number={4} ></Dice>
         </Col>)
 
-        // TODO: d6 implement:
         diceList.push(
             <Col className="d6">
                 <Dice number={6}></Dice>
             </Col>)
 
-        // TODO: d8 implement:
         diceList.push(
             <Col className="d8">
                 <Dice number={8}></Dice>
             </Col>)
 
-        // D10 implement:
         diceList.push(
             <Col className="d10">
                 <Dice number={10} ></Dice>
             </Col>)
 
-        // D12 implement:
         diceList.push(
             <Col className="d12">
                 <Dice number={12} ></Dice>
             </Col>)
 
-        // D20 implement:
         diceList.push(
             <Col className="d20"> 
                 <Dice number={20} ></Dice>
