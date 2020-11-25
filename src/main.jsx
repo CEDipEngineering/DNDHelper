@@ -79,6 +79,7 @@ export default class Login extends Component {
         this.removeMonster = this.removeMonster.bind(this);
         this.handleMonsterLife = this.handleMonsterLife.bind(this);
         this.checkMonster = this.checkMonster.bind(this);
+        this.checkSpell = this.checkSpell.bind(this);
         this.filter = this.filter.bind(this);
         this.search = this.search.bind(this);
         this.sleep = this.sleep.bind(this);
@@ -100,7 +101,7 @@ export default class Login extends Component {
         this.setState({ proceed: false })
         await this.sleep(1000)
         this.setState(state => {
-            state.data = []
+            state.dataSpell = []
             state.proceed = true
         })
         var name = event.target.value
