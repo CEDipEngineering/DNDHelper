@@ -2,7 +2,7 @@ import React, { Component , Fragment} from 'react'
 import { Input, Button } from "reactstrap";
 
 
-class MonsterTable extends React.Component {
+class SpellTable extends React.Component {
     constructor(props){
         super()
         this.state = {
@@ -16,17 +16,16 @@ class MonsterTable extends React.Component {
     }
     render(){
         //console.log(this.props)
-        var monstersArray = this.props.monsterInfo;
+        var spellsArray = this.props.spellInfo;
         var rows = [];
-        for (let i =0; i<monstersArray.length; i++) {
+        for (let i =0; i<spellsArray.length; i++) {
             rows.push(
                 <tr>
-                    <td><a href={"https://open5e.com/monsters/" + monstersArray[i].slug}>{monstersArray[i].name}</a></td>
-                    <td>{monstersArray[i].type}</td>
-                    <td>{monstersArray[i].alignment}</td>
-                    <td>{monstersArray[i].challenge_rating}</td>
-                    <td>{monstersArray[i].hit_points}/{monstersArray[i].hit_dice}</td>
-                    <td><Button color="success" value={monstersArray[i].name} onClick={this.props.allCallbacks.addMonster}>+</Button></td>
+                    <td><a href={"https://open5e.com/spells/" + spellsArray[i].slug}>{spellsArray[i].name}</a></td>
+                    <td>{spellsArray[i].school}</td>
+                    <td>{spellsArray[i].level}</td>
+                    <td>{spellsArray[i].components}</td>
+                    <td>{spellsArray[i].dnd_class}</td>
                 </tr>
             )
         }
@@ -42,10 +41,10 @@ class MonsterTable extends React.Component {
                             </tr>
                             <tr>
                                 <th><Button outline value="name" onClick={this.props.allCallbacks.check}>Name</Button></th>
-                                <th><Button outline value="type" onClick={this.props.allCallbacks.check}>Type</Button></th>
-                                <th><Button outline value="alignment" onClick={this.props.allCallbacks.check}>Alignment</Button></th>
-                                <th><Button outline value="challenge_rating" onClick={this.props.allCallbacks.check}>CR</Button></th>
-                                <th><Button outline value="hit_points" onClick={this.props.allCallbacks.check}>Hit Points</Button></th>
+                                <th><Button outline value="school" onClick={this.props.allCallbacks.check}>school</Button></th>
+                                <th><Button outline value="level" onClick={this.props.allCallbacks.check}>Level</Button></th>
+                                <th><Button outline value="component" onClick={this.props.allCallbacks.check}>Component</Button></th>
+                                <th><Button outline value="class" onClick={this.props.allCallbacks.check}>Class</Button></th>
                             </tr>
                         </thead>
                         <tbody>               
@@ -58,4 +57,4 @@ class MonsterTable extends React.Component {
     }
 } 
 
-export default (MonsterTable)
+export default (SpellTable)
