@@ -17,8 +17,13 @@ class Dice extends React.Component {
         this.number = 0
         this.handleClick = this.handleClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.roll = this.roll.bind(this);
         
 
+    }
+
+    roll(){
+        return Math.floor(Math.random() * this.props.number) + 1
     }
 
 
@@ -27,7 +32,7 @@ class Dice extends React.Component {
     }
 
     handleClick(){
-        this.number = Math.floor(Math.random() * this.props.number) + 1;
+        this.number = this.roll();
         this.setState(
             {setOpen: true}
         )
