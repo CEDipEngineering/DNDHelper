@@ -1,82 +1,73 @@
-import React, { Component , Fragment} from 'react'
-import { Input, Button } from "reactstrap";
-import Snackbar from '@material-ui/core/Snackbar';
+import React, { Component, Fragment } from 'react'
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import ReactTooltip from "react-tooltip";
 import Tooltip from '@material-ui/core/Tooltip';
-
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 class Dice extends React.Component {
-    constructor(props){
+    constructor(props) {
         super()
         this.state = {
             loading: true,
-            setOpen: false,
+            // setOpen: false,
+            count: 1,
         }
-        this.number = 0
-        this.handleClick = this.handleClick.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.number = ""
         this.roll = this.roll.bind(this);
-        
-
+        this.upCount = this.upCount.bind(this);
+        this.dropCount = this.dropCount.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    roll(){
+    roll() {
         return Math.floor(Math.random() * this.props.number) + 1
     }
 
-
-    componentDidMount(){
-        this.setState({loading: false})
-    }
-
     handleClick(){
-        this.number = this.roll();
+        let curr = 0;
+        for (let i = 0; i<this.state.count; i++){
+            curr += this.roll();
+        }
+        this.number = curr;
         this.setState(
             {setOpen: true}
         )
     };
-    
-    handleClose(event, reason){
-        if (reason === 'clickaway') {
-          return;
-        }
-        this.setState({setOpen: false})
-      };
 
-    render(){
+    componentDidMount() {
+        this.setState({ loading: false })
+    }
+
+    upCount(event){
+        this.setState({
+            count: this.state.count + 1
+        });
+    }
+
+    dropCount(event){
+        this.setState({
+            count: this.state.count - 1
+        });
+    }
+
+    render() {
         return (
-        <React.Fragment>
-      <Tooltip title={"Dice " + this.props.number}>
-
-            <IconButton id={"Dice"} onClick={this.handleClick}></IconButton>
-        </Tooltip>
-
-            <Snackbar
-                anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-                }}
-                open={this.state.setOpen}
-                autoHideDuration={6000}
-                onClose={this.handleClose}
-                message={"Your rolled a d" + this.props.number +  " for a: " + this.number}
-                action={
-                <React.Fragment>
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={this.handleClose}>
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
-                    
-                </React.Fragment>
-                }
-            />
-        </React.Fragment>
+            <React.Fragment>
+                <div className={"dieSelector"}>
+                    <h5>{this.state.count}</h5>
+                    <IconButton onClick={this.upCount}><AddIcon/></IconButton>
+                    <IconButton onClick={this.dropCount}><RemoveIcon/></IconButton>
+                </div>
+                <Tooltip title={"Dice " + this.props.number}>
+                    <IconButton id={"Dice"} onClick={this.handleClick}></IconButton>
+                </Tooltip>
+                <p>Result: {this.number}</p>
+            </React.Fragment>
         )
     }
 
 }
-    //  Placeholder image of Dice
-    // https://i.ibb.co/HzKKBMg/Clipart-Key-339726.png
+//  Placeholder image of Dice
+// https://i.ibb.co/HzKKBMg/Clipart-Key-339726.png
 
 export default (Dice)
