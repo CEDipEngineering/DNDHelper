@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, ListGroupItem, Input, Row, Col, Form, FormGroup, Label, Collapse, ButtonGroup } from "reactstrap";
 import classnames from 'classnames';
 import MonsterTable from './components/MonsterTable'
+import SpellTable from './components/SpellTable'
 import EncounterRow from './components/EncounterRow'
 import AccountSettings from './components/AccountSettings'
 import REG from './components/REG'
@@ -26,6 +27,7 @@ export default class Login extends Component {
         this.state = {
             listMonsters: [],
             data: [],
+            dataSpell:[],
             aapple: {
                 "name": "Aapple",
                 "type": "fruit",
@@ -50,6 +52,7 @@ export default class Login extends Component {
                 "alignment": false
             },
             monsterUrl: "https://api.open5e.com/monsters/?search=",
+            spellUrl :"https://api.open5e.com/spells/?search=",
             filter: "",
             filtering: "",
             proceed: true,
@@ -65,6 +68,7 @@ export default class Login extends Component {
         // console.log("encounter selected: ", this.state.encSelected)
 
         this.getMonsters = this.getMonsters.bind(this);
+        this.getSpells = this.getSpells.bind(this);
         this.toggle = this.toggle.bind(this);
         this.toggleCollapse = this.toggleCollapse.bind(this);
         this.newEncounter = this.newEncounter.bind(this);
@@ -77,12 +81,14 @@ export default class Login extends Component {
         this.removeMonster = this.removeMonster.bind(this);
         this.handleMonsterLife = this.handleMonsterLife.bind(this);
         this.check = this.check.bind(this);
+        this.checkMonster = this.checkMonster.bind(this);
+        this.checkSpell = this.checkSpell.bind(this);
         this.filter = this.filter.bind(this);
         this.search = this.search.bind(this);
         this.sleep = this.sleep.bind(this);
     }
 
-    async check(event) {
+    async checkMonster(event) {
         this.setState({ proceed: false })
         await this.sleep(1000)
         this.setState(state => {
@@ -93,6 +99,21 @@ export default class Login extends Component {
         var url = "https://api.open5e.com/monsters/?ordering=" + name
         this.getMonsters(url)
     }
+
+    async checkSpell(event) {
+        this.setState({ proceed: false })
+        await this.sleep(1000)
+        this.setState(state => {
+            state.dataSpell = []
+            state.proceed = true
+        })
+        var name = event.target.value
+        var url = "https://api.open5e.com/spells/?ordering=" + name
+        console.log("URL PORRA", url)
+        this.getSpells(url)
+    }
+
+
 
     filter(event) {
         var handleState = (state, event) => {
@@ -126,7 +147,7 @@ export default class Login extends Component {
     getMonsters(url) {
        axios.get(url)
             .then(resp => {
-                // console.log(resp.data.results)
+                //console.log(resp.data.results)
                 var { data } = this.state
                 var newdata = data.concat(resp.data.results)
                 // console.log("data",data)
@@ -142,10 +163,33 @@ export default class Login extends Component {
             })
     }
 
+
+    getSpells(url) {
+        //console.log(url)
+        axios.get(url)
+            .then(resp => {
+                // console.log(resp.data.results)
+                var { dataSpell } = this.state
+                // console.log("response of getmonster", resp.data.results)
+                var newdata = dataSpell.concat(resp.data.results)
+                console.log("data",dataSpell)
+                this.setState({
+                    dataSpell: newdata
+                })
+                url = resp.data.next
+                var proceed = this.state.proceed
+                //console.log("URL", url)
+                if (url && proceed) {
+                    this.getSpells(url)
+                }
+            })
+    }
+
     componentDidMount() {
         var url = "https://api.open5e.com/monsters/"
-
+        var urls = "https://api.open5e.com/spells/"
         this.getMonsters(url)
+        this.getSpells(urls)
     }
 
     toggleCollapse(nombre) {
@@ -369,8 +413,11 @@ export default class Login extends Component {
 
     render() {
         var monstersArray = this.state.data
-        var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.check, addMonster: this.addMonster }} />;
+        var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
 
+        var spellsArray = this.state.dataSpell
+        var tableSpells = <SpellTable spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, check: this.checkSpell }} />;
+        
         var encountersArray = this.state.user.encounters
         var tableEncounters = <EncounterRow encounterInfo={encountersArray} allCallbacks={{ handleLife: this.handleMonsterLife, remove: this.removeMonster, toggleCollapse: this.toggleCollapse, deleteEncounter: this.deleteEncounter }} />
 
@@ -401,37 +448,31 @@ export default class Login extends Component {
 
         const diceList = []
         
-        // TODO: d4 implement:
         diceList.push(
         <Col  className="d4">
             <Dice number={4} ></Dice>
         </Col>)
 
-        // TODO: d6 implement:
         diceList.push(
             <Col className="d6">
                 <Dice number={6}></Dice>
             </Col>)
 
-        // TODO: d8 implement:
         diceList.push(
             <Col className="d8">
                 <Dice number={8}></Dice>
             </Col>)
 
-        // D10 implement:
         diceList.push(
             <Col className="d10">
                 <Dice number={10} ></Dice>
             </Col>)
 
-        // D12 implement:
         diceList.push(
             <Col className="d12">
                 <Dice number={12} ></Dice>
             </Col>)
 
-        // D20 implement:
         diceList.push(
             <Col className="d20"> 
                 <Dice number={20} ></Dice>
@@ -464,6 +505,14 @@ export default class Login extends Component {
                             className={classnames({ active: activeTab === '3' })}
                             onClick={() => { this.toggle('3'); }}
                         >
+                            Spell List
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeTab === '4' })}
+                            onClick={() => { this.toggle('4'); }}
+                        >
                             Encounters
                         </NavLink>
                     </NavItem>
@@ -479,6 +528,14 @@ export default class Login extends Component {
                             </Row>
                         </Container>
                     </TabPane>
+                    <TabPane tabId="3">
+                        <Container>
+                            <Input type="select" onChange={this.changeEncounter}> {selectEncounters} </Input>
+                            <Table borderless striped>
+                                {tableSpells}
+                            </Table>
+                        </Container>
+                    </TabPane>
                     <TabPane tabId="2">
                         <Container>
                             <Input type="select" onChange={this.changeEncounter}> {selectEncounters} </Input>
@@ -487,7 +544,7 @@ export default class Login extends Component {
                             </Table>
                         </Container>
                     </TabPane>
-                    <TabPane tabId="3">
+                    <TabPane tabId="4">
                         <Container>
                             <Row>
                                 <Col sm="12">
