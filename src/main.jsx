@@ -56,6 +56,7 @@ export default class Login extends Component {
             filtering: "",
             proceed: true,
 
+            randomEncouterName: "",
             cr: 0,
             n: 0,
             randomMonsters: [],
@@ -78,6 +79,7 @@ export default class Login extends Component {
         this.addMonster = this.addMonster.bind(this);
         this.removeMonster = this.removeMonster.bind(this);
         this.handleMonsterLife = this.handleMonsterLife.bind(this);
+        this.makeRandomEncounter = this.makeRandomEncounter.bind(this);
         this.checkMonster = this.checkMonster.bind(this);
         this.checkSpell = this.checkSpell.bind(this);
         this.filter = this.filter.bind(this);
@@ -406,32 +408,51 @@ export default class Login extends Component {
             })
         this.forceUpdate();
     }
+    makeRandomEncounter(event) {
+        const name = this.state.randomEncounterName;
+        const n = this.state.n;
+        const cr = this.state.cr;
+        const monsterList = this.state.data;
+        let randomMonsters = []
+        if (n===0 || cr===0 || name===""){
+            alert("fill all informations");
+        }else{
+            for (let i = 0; i<n; i++) {
+                const monster = monsterList[Math.floor(Math.random() * 50)];
+                if (monster.challenge_rating === cr){
+                    randomMonsters.push(monster)
+                }else{
+                    i--;
+                };
+            };
+            const encounters = this.state.user.encounters;
+            const newEnc =  {
+                "name": name,
+                "monsters": randomMonsters,
+                "isOpen": true
+            };
+            encounters.push(newEnc);
+            this.setState((state) => {
+                state.user.encounters = encounters;
+                state.encSelected = newEnc.name;
+            });
+        }
+        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
+        axios.put(url, this.state.user)
+            .then(resp => {
+                this.setState((state) => {
+                    state.user = resp.data
+                })
+            })
+            .catch(error => {
+                console.log("error",error)
+            })
+        this.forceUpdate();
+        event.preventDefault();
+    };
+
 
     render() {
-
-        const makeRandomEncounter = () => {
-            alert("making random encounter...");
-            var n = this.state.n;
-            var cr = this.state.cr;
-            var monsterList = this.state.data;
-            var randomMonsters = []
-            if (n===0 || cr===0){
-                alert("fill all informations");
-            }else{
-                for (let i = 0; i<n; i++) {
-                    let monster = monsterList[Math.floor(Math.random() * 50)];
-                    if (monster.challenge_rating === cr){
-                        alert(monster.name);
-                        randomMonsters.push(monster)
-                    }else{
-                        i--;
-                    };
-                };
-            }     
-            console.log('randomMonsters', randomMonsters);
-            this.setState({randomMonsters: randomMonsters})
-        };
-
         var monstersArray = this.state.data
         var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
 
@@ -587,6 +608,10 @@ export default class Login extends Component {
                                         <h5> Generate Random Encounter </h5>
                                         <FormGroup>
 
+                                            Encounter Name: <input type="text"
+                                            onChange={(e) => {
+                                                this.setState({randomEncounterName: e.target.value})}
+                                            }/><br />
                                             Amount of monsters: <input type="number"
                                             onChange={(e) => {this.setState({n: e.target.value})}} 
                                             min="1" max="10"/><br />
@@ -594,8 +619,7 @@ export default class Login extends Component {
                                             onChange={(e) => {this.setState({cr: e.target.value})}}
                                             min="0" max="9"/><br />
 
-                                            <button onClick={makeRandomEncounter}> load encounter </button>
-                                            {this.state.randomMonsters}
+                                            <button onClick={this.makeRandomEncounter}> load encounter </button>
                                        </FormGroup>
                                     </Form>
 
