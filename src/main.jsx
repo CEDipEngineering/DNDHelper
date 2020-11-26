@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import MonsterTable from './components/MonsterTable'
 import EncounterRow from './components/EncounterRow'
 import AccountSettings from './components/AccountSettings'
+import REG from './components/REG'
 import Dice from './components/Dice'
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -76,7 +77,6 @@ export default class Login extends Component {
         this.removeMonster = this.removeMonster.bind(this);
         this.handleMonsterLife = this.handleMonsterLife.bind(this);
         this.check = this.check.bind(this);
-        this.makeRandomEncounter = this.makeRandomEncounter.bind(this);
         this.filter = this.filter.bind(this);
         this.search = this.search.bind(this);
         this.sleep = this.sleep.bind(this);
@@ -365,48 +365,6 @@ export default class Login extends Component {
             })
         this.forceUpdate();
     }
-    makeRandomEncounter(event) {
-        const name = this.state.randomEncounterName;
-        const n = this.state.n;
-        const cr = this.state.cr;
-        const monsterList = this.state.data;
-        let randomMonsters = []
-        if (n===0 || cr===0 || name===""){
-            alert("fill all informations");
-        }else{
-            for (let i = 0; i<n; i++) {
-                const monster = monsterList[Math.floor(Math.random() * 50)];
-                if (monster.challenge_rating === cr){
-                    randomMonsters.push(monster)
-                }else{
-                    i--;
-                };
-            };
-            const encounters = this.state.user.encounters;
-            const newEnc =  {
-                "name": name,
-                "monsters": randomMonsters,
-                "isOpen": true
-            };
-            encounters.push(newEnc);
-            this.setState((state) => {
-                state.user.encounters = encounters;
-                state.encSelected = newEnc.name;
-            });
-        }
-        var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
-        axios.put(url, this.state.user)
-            .then(resp => {
-                this.setState((state) => {
-                    state.user = resp.data
-                })
-            })
-            .catch(error => {
-                console.log("error",error)
-            })
-        this.forceUpdate();
-        event.preventDefault();
-    };
 
 
     render() {
@@ -542,25 +500,12 @@ export default class Login extends Component {
                                         <FormGroup>
                                             <Button color="success" onClick={this.newEncounter}>Add Encounter</Button>
                                         </FormGroup> <br />                                            
-
-                                        <h5> Generate Random Encounter </h5>
-                                        <FormGroup>
-
-                                            Encounter Name: <input type="text"
-                                            onChange={(e) => {
-                                                this.setState({randomEncounterName: e.target.value})}
-                                            }/><br />
-                                            Amount of monsters: <input type="number"
-                                            onChange={(e) => {this.setState({n: e.target.value})}} 
-                                            min="1" max="10"/><br />
-                                            Select cr of monsters: <input type="number" 
-                                            onChange={(e) => {this.setState({cr: e.target.value})}}
-                                            min="0" max="9"/><br />
-
-                                            <button onClick={this.makeRandomEncounter}> load encounter </button>
-                                       </FormGroup>
                                     </Form>
 
+                                    <Form>
+                                        <REG user = {this.state.user}
+                                             data = {this.state.data} />
+                                    </Form>
 
                                     <ListGroup>{tableEncounters}</ListGroup>
                                 </Col>
