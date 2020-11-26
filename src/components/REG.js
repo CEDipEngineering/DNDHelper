@@ -60,16 +60,15 @@ class REG extends React.Component {
             event.preventDefault();
         }else{
             for (let i = 0; i<n; i++) {
-
                 const monster = monsterList[Math.floor(Math.random() * monsterList.length)];
-                if (monster.challenge_rating === cr){
+                if (monster.challenge_rating == cr){
                     randomMonsters.push(monster)
                 }else{
                     i--;
                 };
             };
             const encounters = this.state.user.encounters;
-            const newEnc =  {
+            newEnc =  {
                 "name": name,
                 "monsters": randomMonsters,
                 "isOpen": true
