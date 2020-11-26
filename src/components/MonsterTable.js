@@ -16,7 +16,7 @@ class MonsterTable extends React.Component {
         this.setState({loading: false})
     }
     render(){
-        // console.log(this.props)
+        //console.log(this.props)
         var monstersArray = this.props.monsterInfo;
         var rows = [];
         for (let i =0; i<monstersArray.length; i++) {
