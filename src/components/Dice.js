@@ -53,11 +53,10 @@ class Dice extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className={"dieSelector"}>
-                    <h5>{this.state.count}</h5>
-                    <IconButton onClick={this.upCount}><AddIcon/></IconButton>
-                    <IconButton onClick={this.dropCount}><RemoveIcon/></IconButton>
-                </div>
+                <form>
+                    <input className={"dieSelector"} type="number" value={this.state.count} 
+                    onChange={(e) => {this.setState({count: e.target.value})}}></input>
+                </form>
                 <Tooltip title={"Dice " + this.props.number}>
                     <IconButton id={"Dice"} onClick={this.handleClick}></IconButton>
                 </Tooltip>
