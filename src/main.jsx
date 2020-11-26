@@ -82,6 +82,7 @@ export default class Login extends Component {
         this.checkSpell = this.checkSpell.bind(this);
         this.filter = this.filter.bind(this);
         this.search = this.search.bind(this);
+        this.searchSpell = this.searchSpell.bind(this);
         this.sleep = this.sleep.bind(this);
     }
 
@@ -138,7 +139,18 @@ export default class Login extends Component {
         this.getMonsters(this.state.monsterUrl + this.state.filter)
     }
 
+    async searchSpell() {
+        this.setState(state => {
+            state.proceed = false
+        })
+        await this.sleep(1000)
 
+        this.setState(state => {
+            state.data = []
+            state.proceed = true
+        })
+        this.getSpells(this.state.spellUrl + this.state.filter)
+    }
 
 
     getMonsters(url) {
@@ -436,7 +448,7 @@ export default class Login extends Component {
         var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
 
         var spellsArray = this.state.dataSpell
-        var tableSpells = <SpellTable spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, check: this.checkSpell }} />;
+        var tableSpells = <SpellTable spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.searchSpell, check: this.checkSpell }} />;
         
         var encountersArray = this.state.user.encounters
         var tableEncounters = <EncounterRow encounterInfo={encountersArray} allCallbacks={{ handleLife: this.handleMonsterLife, remove: this.removeMonster, toggleCollapse: this.toggleCollapse, deleteEncounter: this.deleteEncounter }} />
