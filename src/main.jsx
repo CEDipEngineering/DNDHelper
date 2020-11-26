@@ -27,6 +27,7 @@ export default class Login extends Component {
             listMonsters: [],
             data: [],
             dataSpell:[],
+            nxt: "false",
             aapple: {
                 "name": "Aapple",
                 "type": "fruit",
@@ -101,6 +102,7 @@ export default class Login extends Component {
     }
 
     async checkSpell(event) {
+        
         this.setState({ proceed: false })
         await this.sleep(1000)
         this.setState(state => {
@@ -109,7 +111,7 @@ export default class Login extends Component {
         })
         var name = event.target.value
         var url = "https://api.open5e.com/spells/?ordering=" + name
-        console.log("URL PORRA", url)
+        //console.log("URL PORRA", url)
         this.getSpells(url)
     }
 
@@ -142,6 +144,7 @@ export default class Login extends Component {
     }
 
     async searchSpell() {
+        
         this.setState(state => {
             state.proceed = false
         })
@@ -183,7 +186,7 @@ export default class Login extends Component {
                 var { dataSpell } = this.state
                 // console.log("response of getmonster", resp.data.results)
                 var newdata = dataSpell.concat(resp.data.results)
-                console.log("data",dataSpell)
+                //console.log("dataSpell",dataSpell)
                 this.setState({
                     dataSpell: newdata
                 })
@@ -197,6 +200,7 @@ export default class Login extends Component {
     }
 
     componentDidMount() {
+        
         var url = "https://api.open5e.com/monsters/"
         var urls = "https://api.open5e.com/spells/"
         this.getMonsters(url)
@@ -470,7 +474,7 @@ export default class Login extends Component {
 
         var spellsArray = this.state.dataSpell
         var tableSpells = <SpellTable spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.searchSpell, check: this.checkSpell }} />;
-        
+        console.log(spellsArray)
         var encountersArray = this.state.user.encounters
         var tableEncounters = <EncounterRow encounterInfo={encountersArray} allCallbacks={{ handleLife: this.handleMonsterLife, remove: this.removeMonster, toggleCollapse: this.toggleCollapse, deleteEncounter: this.deleteEncounter }} />
 
