@@ -23,7 +23,6 @@ export default class Login extends Component {
             }
         }
 
-
         this.state = {
             listMonsters: [],
             data: [],
@@ -61,7 +60,8 @@ export default class Login extends Component {
             cr: 0,
             n: 0,
             randomMonsters: [],
-            idList: []
+            idList: [],
+            refresh: false
             
         }
 
@@ -80,12 +80,12 @@ export default class Login extends Component {
         this.addMonster = this.addMonster.bind(this);
         this.removeMonster = this.removeMonster.bind(this);
         this.handleMonsterLife = this.handleMonsterLife.bind(this);
-        this.check = this.check.bind(this);
         this.checkMonster = this.checkMonster.bind(this);
         this.checkSpell = this.checkSpell.bind(this);
         this.filter = this.filter.bind(this);
         this.search = this.search.bind(this);
         this.sleep = this.sleep.bind(this);
+        this.handleRefresh = this.handleRefresh.bind(this)
     }
 
     async checkMonster(event) {
@@ -109,11 +109,13 @@ export default class Login extends Component {
         })
         var name = event.target.value
         var url = "https://api.open5e.com/spells/?ordering=" + name
-        console.log("URL PORRA", url)
         this.getSpells(url)
     }
 
-
+    handleRefresh(){
+        this.setState({refresh: true})
+        this.forceUpdate();
+    }
 
     filter(event) {
         var handleState = (state, event) => {
@@ -141,28 +143,21 @@ export default class Login extends Component {
         this.getMonsters(this.state.monsterUrl + this.state.filter)
     }
 
-
-
-
     getMonsters(url) {
        axios.get(url)
             .then(resp => {
-                //console.log(resp.data.results)
                 var { data } = this.state
                 var newdata = data.concat(resp.data.results)
-                // console.log("data",data)
                 this.setState({
                     data: newdata
                 })
                 url = resp.data.next
                 var proceed = this.state.proceed
-                // console.log("URL", url)
                 if (url && proceed) {
                     this.getMonsters(url)
                 }
             })
     }
-
 
     getSpells(url) {
         //console.log(url)
@@ -389,7 +384,6 @@ export default class Login extends Component {
         const index = encs.map(enc => { return enc.name }).indexOf(encounterName)
         const encounterMonsters = encs[index].monsters
         const indexOfMonster = encounterMonsters.map(monst => { return monst.name }).indexOf(monsterName)
-        // console.log("valor do evento", event.target.value)
         var handleState = (state, event) => {
             state.user.encounters[index].monsters[indexOfMonster].hit_points = event.target.value
         }
@@ -410,16 +404,34 @@ export default class Login extends Component {
         this.forceUpdate();
     }
 
-
     render() {
+
+
         var monstersArray = this.state.data
-        var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
+        var tableMonsters = <MonsterTable monsterInfo={monstersArray}
+                                          allCallbacks={{ filter: { 
+                                                func: this.filter,
+                                                state: this.state.filter },
+                                          search: this.search,
+                                          check: this.checkMonster,
+                                          addMonster: this.addMonster }} />;
 
         var spellsArray = this.state.dataSpell
-        var tableSpells = <SpellTable spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, check: this.checkSpell }} />;
+        var tableSpells = <SpellTable spellInfo={spellsArray}
+                                      allCallbacks={{ 
+                                          filter: { func: this.filter, 
+                                                    state: this.state.filter }, 
+                                          check: this.checkSpell }} />;
         
         var encountersArray = this.state.user.encounters
-        var tableEncounters = <EncounterRow encounterInfo={encountersArray} allCallbacks={{ handleLife: this.handleMonsterLife, remove: this.removeMonster, toggleCollapse: this.toggleCollapse, deleteEncounter: this.deleteEncounter }} />
+        var tableEncounters = <EncounterRow encounterInfo={encountersArray} 
+                                            allCallbacks={{
+                                                handleLife: this.handleMonsterLife,
+                                                remove: this.removeMonster,
+                                                toggleCollapse: this.toggleCollapse,
+                                                deleteEncounter: this.deleteEncounter
+                                            }} 
+                                            refresh={this.state.refresh} />
 
         // console.log(encountersArray)
         var selectEncounters = [];
@@ -479,8 +491,15 @@ export default class Login extends Component {
             </Col>)
 
 
+        var renderREG;
+        if (this.state.data.length == 1086) {
+            renderREG = <REG user = {this.state.user}
+                             data = {this.state.data}
+                             handleRefresh = {this.handleRefresh}/>
 
-
+        }else{
+            renderREG = <p> loading... </p>
+        }
         return (
             <div>
                 <Nav tabs style={{ marginBottom: "1rem" }}>
@@ -560,11 +579,13 @@ export default class Login extends Component {
                                     </Form>
 
                                     <Form>
-                                        <REG user = {this.state.user}
-                                             data = {this.state.data} />
+                                        {renderREG}
                                     </Form>
+                                    <ListGroup>
+                                        {tableEncounters }
 
-                                    <ListGroup>{tableEncounters}</ListGroup>
+                                    </ListGroup>
+         
                                 </Col>
                             </Row>
                         </Container>
