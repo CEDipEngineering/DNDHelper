@@ -65,6 +65,7 @@ export default class Login extends Component {
             listMonsters: [],
             data: [],
             dataSpell:[],
+            page: 1,
             aapple: {
                 "name": "Aapple",
                 "type": "fruit",
@@ -118,6 +119,8 @@ export default class Login extends Component {
         // console.log("encounter selected: ", this.state.encSelected)
         this.getMonsters = this.getMonsters.bind(this);
         this.getSpells = this.getSpells.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
         this.toggle = this.toggle.bind(this);
         this.toggleCollapse = this.toggleCollapse.bind(this);
         this.newEncounter = this.newEncounter.bind(this);
@@ -154,6 +157,7 @@ export default class Login extends Component {
     }
 
     async checkSpell(event) {
+        
         this.setState({ proceed: false })
         await this.sleep(1000)
         this.setState(state => {
@@ -162,7 +166,7 @@ export default class Login extends Component {
         })
         var name = event.target.value
         var url = "https://api.open5e.com/spells/?ordering=" + name
-        console.log("URL PORRA", url)
+        //console.log("URL PORRA", url)
         this.getSpells(url)
     }
 
@@ -231,27 +235,54 @@ export default class Login extends Component {
     }
     
     getSpells(url) {
-        //console.log(url)
+        console.log(url)
         axios.get(url)
             .then(resp => {
-                // console.log(resp.data.results)
+                console.log(resp.data.results)
                 var { dataSpell } = this.state
                 // console.log("response of getmonster", resp.data.results)
                 var newdata = dataSpell.concat(resp.data.results)
-                console.log("data",dataSpell)
+                //console.log("dataSpell",dataSpell)
                 this.setState({
                     dataSpell: newdata
                 })
-                url = resp.data.next
-                var proceed = this.state.proceed
-                //console.log("URL", url)
-                if (url && proceed) {
-                    this.getSpells(url)
-                }
+                // url = resp.data.next
+                // var proceed = this.state.proceed
+                // console.log("URL", url)
+                // if (url && proceed) {
+                //     this.getSpells(url)
+                // }
             })
     }
 
+    nextPage(event){
+
+        var handleState = (state, event) => {
+            state.page = state.page + 1
+            state.dataSpell = []
+        }
+        this.setState(handleState(this.state, event))
+        this.forceUpdate()
+        var url = "https://api.open5e.com/spells/?page=" + this.state.page
+        this.getSpells(url)
+        console.log(url)
+    }  
+
+
+    previousPage(event){
+        var handleState = (state, event) => {
+            state.page = state.page - 1
+            state.dataSpell = []
+        }
+        this.setState(handleState(this.state, event))
+        this.forceUpdate()
+        var url = "https://api.open5e.com/spells/?page=" + this.state.page
+        this.getSpells(url)
+        console.log(url)
+    }
+
     componentDidMount() {
+        
         var url = "https://api.open5e.com/monsters/"
         var urls = "https://api.open5e.com/spells/"
         this.getMonsters(url)
@@ -554,7 +585,9 @@ export default class Login extends Component {
         var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
 
         var spellsArray = this.state.dataSpell
-        var tableSpells = <SpellTable levels_filter={this.state.levels} schools_filter={this.state.schools} classes_filter={this.state.classes} spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.searchSpell, check: this.checkSpell }} />;
+        console.log(spellsArray)
+        var tableSpells = <SpellTable levels_filter={this.state.levels} schools_filter={this.state.schools} classes_filter={this.state.classes} spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.searchSpell, check: this.checkSpell, next: this.nextPage, previous : this.previousPage }} />;
+
         
         var encountersArray = this.state.user.encounters
         var tableEncounters = <EncounterRow encounterInfo={encountersArray} allCallbacks={{ handleLife: this.handleMonsterLife, remove: this.removeMonster, toggleCollapse: this.toggleCollapse, deleteEncounter: this.deleteEncounter }} />

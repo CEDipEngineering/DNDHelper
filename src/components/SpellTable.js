@@ -1,3 +1,4 @@
+import { red } from '@material-ui/core/colors';
 import React, { Component , Fragment} from 'react'
 import { Input, Button } from "reactstrap";
 
@@ -74,6 +75,8 @@ class SpellTable extends React.Component {
                                 <th><Input type="text" onChange={this.props.allCallbacks.filter.func} value={this.props.allCallbacks.filter.state} /></th>
                                 <th><Button id="filter" onClick={this.props.allCallbacks.searchSpell}>Search</Button></th>
                             </tr>
+                            <th colspan="4" ><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="prev" onClick={this.props.allCallbacks.previous}>Previous</Button></th>
+                            <th><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="next" onClick={this.props.allCallbacks.next}>Next</Button></th>
                             <tr>
                                 <th><Button outline value="name" onClick={this.props.allCallbacks.check}>Name</Button></th>
                                 <th><Button outline value="school" onClick={this.props.allCallbacks.check}>school</Button></th>
@@ -91,6 +94,9 @@ class SpellTable extends React.Component {
                         <button onClick={this.decCounter}>
                             Show Less
                         </button>
+                        <th colspan="4" ><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="prev" onClick={this.props.allCallbacks.previous}>Previous</Button></th>
+                        <th><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="next" onClick={this.props.allCallbacks.next}>Next</Button></th>
+
                     </div>
                 }
             </tr>

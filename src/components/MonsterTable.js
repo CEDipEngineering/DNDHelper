@@ -1,6 +1,6 @@
 import React, { Component , Fragment} from 'react'
 import { Input, Button } from "reactstrap";
-import { FacebookShareButton, RedditShareButton, TwitterShareButton, WhatsappShareButton, EmailShareButton, FacebookIcon, RedditIcon, EmailIcon, TwitterIcon, WhatsappIcon } from 'react-share';
+import { FacebookShareButton, RedditShareButton, TwitterShareButton, WhatsappShareButton, EmailShareButton, FacebookIcon, RedditIcon, EmailIcon, TwitterIcon, WhatsappIcon , TelegramShareButton , TelegramIcon } from 'react-share';
 
 
 class MonsterTable extends React.Component {
@@ -34,6 +34,15 @@ class MonsterTable extends React.Component {
                             <TwitterShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
                                 <TwitterIcon size={"2rem"} round={true} borderRadius={"9px"} />
                             </TwitterShareButton>
+                            <WhatsappShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
+                                <WhatsappIcon size={"2rem"} round={true} borderRadius={"9px"} />
+                            </WhatsappShareButton>
+                            <EmailShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
+                                <EmailIcon size={"2rem"} round={true} borderRadius={"9px"} />
+                            </EmailShareButton>
+                            <TelegramShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
+                                <TelegramIcon size={"2rem"} round={true} borderRadius={"9px"} />
+                            </TelegramShareButton>
                         </div>
                     </td>
                     <td>{monstersArray[i].type}</td>
