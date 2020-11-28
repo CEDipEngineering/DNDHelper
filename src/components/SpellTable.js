@@ -2,18 +2,39 @@ import { red } from '@material-ui/core/colors';
 import React, { Component , Fragment} from 'react'
 import { Input, Button } from "reactstrap";
 
-
+var counter = 10;
 class SpellTable extends React.Component {
     constructor(props){
         super()
         this.state = {
             loading: true,
+            counter: counter,
         }
-
+        this.incCounter = this.incCounter.bind(this);
+        this.decCounter = this.decCounter.bind(this);
     }
-
+    incCounter() {
+        this.setState({
+            count : this.state.counter+=10
+        });
+        console.log(this.state.counter)
+    }
+    decCounter() {
+        var n;
+        if (this.state.counter == 0) {
+            n = 0
+        } else if (this.state.counter <= 10) {
+            n = 1
+        } else {
+            n = 10
+        }
+        this.setState({
+            count : this.state.counter-=n
+        });
+        console.log(this.state.counter)
+    }
     componentDidMount(){
-        this.setState({loading: false})
+        this.setState({loading: false, counter: counter})
     }
     render(){
         //console.log(this.props)
@@ -65,10 +86,17 @@ class SpellTable extends React.Component {
                             </tr>
                         </thead>
                         <tbody>               
-                            {rows}
+                            {rows.slice(0,this.state.counter)}
                         </tbody>
+                        <button onClick={this.incCounter}>
+                            Show More
+                        </button>
+                        <button onClick={this.decCounter}>
+                            Show Less
+                        </button>
                         <th colspan="4" ><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="prev" onClick={this.props.allCallbacks.previous}>Previous</Button></th>
                         <th><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="next" onClick={this.props.allCallbacks.next}>Next</Button></th>
+
                     </div>
                 }
             </tr>
