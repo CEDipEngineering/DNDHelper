@@ -1,5 +1,11 @@
 import React from 'react'
-import { Table, Container, Button, ListGroupItem, Input, Collapse, ButtonGroup } from "reactstrap";
+import { Table, 
+         Container, 
+         Button, 
+         ListGroupItem, 
+         Input, 
+         Collapse, 
+         ButtonGroup } from "reactstrap";
 
 class EncounterRow extends React.Component {
     constructor(props) {

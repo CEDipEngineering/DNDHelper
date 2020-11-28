@@ -2,17 +2,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, ListGroupItem, Input, Row, Col, Form, FormGroup, Label, Collapse, ButtonGroup } from "reactstrap";
+import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, Input, Row, Col, Form, FormGroup} from "reactstrap";
 import classnames from 'classnames';
 import MonsterTable from './components/MonsterTable'
 import SpellTable from './components/SpellTable'
 import EncounterRow from './components/EncounterRow'
 import AccountSettings from './components/AccountSettings'
 import Dice from './components/Dice'
-import Tooltip from '@material-ui/core/Tooltip';
-import { EventSeat } from '@material-ui/icons';
 import "./filter.css"
-var check_list = true;
 var classesList = new Array();
 
 export default class Login extends Component {
@@ -540,19 +537,24 @@ export default class Login extends Component {
         const name = this.state.randomEncounterName;
         const n = this.state.n;
         const cr = this.state.cr;
-        const monsterList = this.state.data;
-        let randomMonsters = []
         if (n===0 || cr===0 || name===""){
             alert("fill all informations");
         }else{
-            for (let i = 0; i<n; i++) {
-                const monster = monsterList[Math.floor(Math.random() * 50)];
-                if (monster.challenge_rating === cr){
-                    randomMonsters.push(monster)
-                }else{
-                    i--;
-                };
-            };
+
+            //  Horribly inneficient; Replace with filter, shuffle, and splice.
+            // for (let i = 0; i<n; i++) {
+            //     monster = monsterList[Math.floor(Math.random() * 50)];
+            //     if (monster.challenge_rating === cr){
+            //         randomMonsters.push(monster)
+            //     }else{
+            //         i--;
+            //     };
+            // };
+            // Keep only ones with correct cr
+            let monsterList = monsterList.filter(monster => monster.cr == cr);
+            // TODO: Implement scenario where monsterList length is 0
+            // Shuffle array then get slice from 0 to n
+            let randomMonsters = this.state.data.sort(() => 0.5 - Math.random()).splice(0,n);
             const encounters = this.state.user.encounters;
             const newEnc =  {
                 "name": name,

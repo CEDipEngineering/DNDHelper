@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 export default class Encounter extends Component {
     constructor(props) {
