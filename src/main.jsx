@@ -585,6 +585,7 @@ export default class Login extends Component {
         var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
 
         var spellsArray = this.state.dataSpell
+        console.log(spellsArray)
         var tableSpells = <SpellTable levels_filter={this.state.levels} schools_filter={this.state.schools} classes_filter={this.state.classes} spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.searchSpell, check: this.checkSpell, next: this.nextPage, previous : this.previousPage }} />;
 
         
