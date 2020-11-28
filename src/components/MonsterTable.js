@@ -40,7 +40,9 @@ class MonsterTable extends React.Component {
                             <EmailShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
                                 <EmailIcon size={"2rem"} round={true} borderRadius={"9px"} />
                             </EmailShareButton>
-                            
+                            <TelegramShareButton title={monstersArray[i].name} url={"https://open5e.com/monsters/" + monstersArray[i].slug}>
+                                <TelegramIcon size={"2rem"} round={true} borderRadius={"9px"} />
+                            </TelegramShareButton>
                         </div>
                     </td>
                     <td>{monstersArray[i].type}</td>
