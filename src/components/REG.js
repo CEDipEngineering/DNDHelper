@@ -51,25 +51,28 @@ class REG extends React.Component {
         const name = this.state.name;
         const n = this.state.n;
         const cr = this.state.cr;
-        const monsterList = this.state.data;
-        let randomMonsters = [];
-        let newEnc = [];
-        if (n===0 || cr===0 || name===""){
+        let newEnc;
+        if (n==0 || cr==0 || name==""){
             alert("fill all informations");
             this.forceUpdate();
             event.preventDefault();
         }else{
-            for (let i = 0; i<n; i++) {
-
-                const monster = monsterList[Math.floor(Math.random() * monsterList.length)];
-                if (monster.challenge_rating === cr){
-                    randomMonsters.push(monster)
-                }else{
-                    i--;
-                };
-            };
+            //  Horribly inneficient; Replace with filter, shuffle, and splice.
+            // for (let i = 0; i<n; i++) {
+            //     monster = monsterList[Math.floor(Math.random() * 50)];
+            //     if (monster.challenge_rating === cr){
+            //         randomMonsters.push(monster)
+            //     }else{
+            //         i--;
+            //     };
+            // };
+            // Keep only ones with correct cr
+            let monsterList = this.state.data.filter(monster => monster.challenge_rating == this.state.cr);
+            // TODO: Implement scenario where monsterList length is 0
+            // Shuffle array then get slice from 0 to n
+            let randomMonsters = monsterList.sort(() => 0.5 - Math.random()).splice(0,n);
             const encounters = this.state.user.encounters;
-            const newEnc =  {
+            newEnc =  {
                 "name": name,
                 "monsters": randomMonsters,
                 "isOpen": true

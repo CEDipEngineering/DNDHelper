@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, ListGroupItem, Input, Row, Col, Form, FormGroup, Label, Collapse, ButtonGroup } from "reactstrap";
+import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, Input, Row, Col, Form, FormGroup} from "reactstrap";
 import classnames from 'classnames';
 import MonsterTable from './components/MonsterTable'
 import SpellTable from './components/SpellTable'
@@ -10,8 +10,8 @@ import EncounterRow from './components/EncounterRow'
 import AccountSettings from './components/AccountSettings'
 import REG from './components/REG'
 import Dice from './components/Dice'
-import Tooltip from '@material-ui/core/Tooltip';
-
+import "./filter.css"
+var classesList = new Array();
 
 export default class Login extends Component {
     constructor(props) {
@@ -25,9 +25,45 @@ export default class Login extends Component {
 
 
         this.state = {
+            classes: [
+                {class: 'Barbarian', checked: true}, 
+                {class: 'Bard', checked: true}, 
+                {class: 'Cleric', checked: true}, 
+                {class: 'Druid',   checked: true}, 
+                {class: 'Fighter', checked: true}, 
+                {class: 'Monk', checked: true},
+                {class: 'Paladin', checked: true},
+                {class: 'Ranger', checked: true},
+                {class: 'Rogue', checked: true}, 
+                {class: 'Sorcerer', checked: true},
+                {class: 'Warlock', checked: true},
+                {class: 'Wizard', checked: true} 
+            ],
+            schools: [
+                {school: 'Conjuration', checked: true}, 
+                {school: 'Necromancy', checked: true}, 
+                {school: 'Evocation', checked: true}, 
+                {school: 'Abjuration',   checked: true}, 
+                {school: 'Transmutation', checked: true}, 
+                {school: 'Divination', checked: true},
+                {school: 'Enchantment', checked: true},
+                {school: 'Illusion', checked: true}
+            ],
+            levels: [
+                {level: '1st-level', checked: true}, 
+                {level: '2nd-level', checked: true}, 
+                {level: '3rd-level', checked: true}, 
+                {level: '4th-level', checked: true}, 
+                {level: '5th-level', checked: true}, 
+                {level: '6th-level', checked: true}, 
+                {level: '7th-level', checked: true},
+                {level: '8th-level', checked: true},
+                {level: 'Cantrip', checked: true}
+            ],
             listMonsters: [],
             data: [],
             dataSpell:[],
+            page: 1,
             aapple: {
                 "name": "Aapple",
                 "type": "fruit",
@@ -65,16 +101,33 @@ export default class Login extends Component {
             
         }
 
-        // console.log("encounter selected: ", this.state.encSelected)
+        axios.get("https://api.open5e.com/classes/")
+            .then((response) => {
+                var obj = response.data.results;
+                
+                var len = obj.length;
+                for (var i = 0; i<len; i++) {
+                    var name = obj[i].name;
+                    classesList.push(name)
+                }
+            })
+            console.log("CLASSES: ",classesList)
+        
 
+        // console.log("encounter selected: ", this.state.encSelected)
         this.getMonsters = this.getMonsters.bind(this);
         this.getSpells = this.getSpells.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
         this.toggle = this.toggle.bind(this);
         this.toggleCollapse = this.toggleCollapse.bind(this);
         this.newEncounter = this.newEncounter.bind(this);
         this.handleEncounter = this.handleEncounter.bind(this);
         this.changeEncounter = this.changeEncounter.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
+        this.handleSchool = this.handleSchool.bind(this);
+        this.handleLevel = this.handleLevel.bind(this)
         this.editInfo = this.editInfo.bind(this);
         this.deleteEncounter = this.deleteEncounter.bind(this);
         this.addMonster = this.addMonster.bind(this);
@@ -85,6 +138,7 @@ export default class Login extends Component {
         this.checkSpell = this.checkSpell.bind(this);
         this.filter = this.filter.bind(this);
         this.search = this.search.bind(this);
+        this.searchSpell = this.searchSpell.bind(this);
         this.sleep = this.sleep.bind(this);
     }
 
@@ -101,6 +155,7 @@ export default class Login extends Component {
     }
 
     async checkSpell(event) {
+        
         this.setState({ proceed: false })
         await this.sleep(1000)
         this.setState(state => {
@@ -109,7 +164,7 @@ export default class Login extends Component {
         })
         var name = event.target.value
         var url = "https://api.open5e.com/spells/?ordering=" + name
-        console.log("URL PORRA", url)
+        //console.log("URL PORRA", url)
         this.getSpells(url)
     }
 
@@ -138,10 +193,24 @@ export default class Login extends Component {
             state.data = []
             state.proceed = true
         })
+        
         this.getMonsters(this.state.monsterUrl + this.state.filter)
     }
 
+    async searchSpell() {
+        this.setState(state => {
+            state.proceed = false
+        })
+        await this.sleep(1000)
 
+        this.setState(state => {
+            state.data = []
+            state.proceed = true
+        })
+        var obj_debug = this.state.spellUrl + this.state.filter
+        console.log("oi", obj_debug)
+        this.getSpell(this.state.spellUrl + this.state.filter)
+    }
 
 
     getMonsters(url) {
@@ -162,30 +231,56 @@ export default class Login extends Component {
                 }
             })
     }
-
-
+    
     getSpells(url) {
-        //console.log(url)
+        console.log(url)
         axios.get(url)
             .then(resp => {
-                // console.log(resp.data.results)
+                console.log(resp.data.results)
                 var { dataSpell } = this.state
                 // console.log("response of getmonster", resp.data.results)
                 var newdata = dataSpell.concat(resp.data.results)
-                console.log("data",dataSpell)
+                //console.log("dataSpell",dataSpell)
                 this.setState({
                     dataSpell: newdata
                 })
-                url = resp.data.next
-                var proceed = this.state.proceed
-                //console.log("URL", url)
-                if (url && proceed) {
-                    this.getSpells(url)
-                }
+                // url = resp.data.next
+                // var proceed = this.state.proceed
+                // console.log("URL", url)
+                // if (url && proceed) {
+                //     this.getSpells(url)
+                // }
             })
     }
 
+    nextPage(event){
+
+        var handleState = (state, event) => {
+            state.page = state.page + 1
+            state.dataSpell = []
+        }
+        this.setState(handleState(this.state, event))
+        this.forceUpdate()
+        var url = "https://api.open5e.com/spells/?page=" + this.state.page
+        this.getSpells(url)
+        console.log(url)
+    }  
+
+
+    previousPage(event){
+        var handleState = (state, event) => {
+            state.page = state.page - 1
+            state.dataSpell = []
+        }
+        this.setState(handleState(this.state, event))
+        this.forceUpdate()
+        var url = "https://api.open5e.com/spells/?page=" + this.state.page
+        this.getSpells(url)
+        console.log(url)
+    }
+
     componentDidMount() {
+        
         var url = "https://api.open5e.com/monsters/"
         var urls = "https://api.open5e.com/spells/"
         this.getMonsters(url)
@@ -261,6 +356,36 @@ export default class Login extends Component {
         }
         this.setState(handleState(this.state, event))
         // console.log("encounter selected", this.state.encSelected)
+    }
+
+    handleFilter(event) {
+        var handleState = (state, event) => {
+            state.classes.find(obj=> obj.class == event.target.name).checked = event.target.checked
+            var name = event.target.name
+            return state
+        }
+        this.setState(handleState(this.state, event))
+        // console.log("state on change", this.state)
+    }
+
+    handleSchool(event) {
+        var handleState = (state, event) => {
+            state.schools.find(obj=> obj.school == event.target.name).checked = event.target.checked
+            var name = event.target.name
+            return state
+        }
+        this.setState(handleState(this.state, event))
+        // console.log("state on change", this.state)
+    }
+
+    handleLevel(event) {
+        var handleState = (state, event) => {
+            state.levels.find(obj=> obj.level == event.target.name).checked = event.target.checked
+            var name = event.target.name
+            return state
+        }
+        this.setState(handleState(this.state, event))
+        // console.log("state on change", this.state)
     }
 
     handleChange(event) {
@@ -416,7 +541,9 @@ export default class Login extends Component {
         var tableMonsters = <MonsterTable monsterInfo={monstersArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.search, check: this.checkMonster, addMonster: this.addMonster }} />;
 
         var spellsArray = this.state.dataSpell
-        var tableSpells = <SpellTable spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, check: this.checkSpell }} />;
+        console.log(spellsArray)
+        var tableSpells = <SpellTable levels_filter={this.state.levels} schools_filter={this.state.schools} classes_filter={this.state.classes} spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.searchSpell, check: this.checkSpell, next: this.nextPage, previous : this.previousPage }} />;
+
         
         var encountersArray = this.state.user.encounters
         var tableEncounters = <EncounterRow encounterInfo={encountersArray} allCallbacks={{ handleLife: this.handleMonsterLife, remove: this.removeMonster, toggleCollapse: this.toggleCollapse, deleteEncounter: this.deleteEncounter }} />
@@ -530,7 +657,39 @@ export default class Login extends Component {
                     </TabPane>
                     <TabPane tabId="3">
                         <Container>
-                            <Input type="select" onChange={this.changeEncounter}> {selectEncounters} </Input>
+                            <div className="big-container">
+                                <div className="little-container">
+                                    {this.state.classes.map(classe => {
+                                        return (
+                                        <div>
+                                            <input type="checkbox" name={classe.class} checked={this.state.classes.find(obj => obj.class == classe.class).checked} onChange={this.handleFilter}/>
+                                            {classe.class}
+                                        </div>
+                                        )
+                                    })}
+                                </div>
+                                <div className="little-container">
+                                    {this.state.schools.map(school => {
+                                        return (
+                                        <div>
+                                            <input type="checkbox" name={school.school} checked={this.state.schools.find(obj => obj.school == school.school).checked} onChange={this.handleSchool}/>
+                                            {school.school}
+                                        </div>
+                                        )
+                                    })}
+                                </div>
+                                <div className="little-container">
+                                    {this.state.levels.map(level => {
+                                        return (
+                                        <div>
+                                            <input type="checkbox" name={level.level} checked={this.state.levels.find(obj => obj.level == level.level).checked} onChange={this.handleLevel}/>
+                                            {level.level}
+                                        </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                            
                             <Table borderless striped>
                                 {tableSpells}
                             </Table>

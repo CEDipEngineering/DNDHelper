@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
-import { BrowserRouter as Redirect} from 'react-router-dom'
 
 export default class Register extends Component {
     constructor(props) {
