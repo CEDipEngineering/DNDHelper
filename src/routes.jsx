@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 
 import Register from './regis'
 import Login from './login'
-import Encounter from './encounter'
 
 export default props => (
     <Router>

@@ -60,11 +60,12 @@
 }
 
 .dieSelector {
-  display: flex;
-  flex-flow: row nowrap;
   text-align: center;
-  align-items: center;
-  justify-content: space-around;
+  width: 4rem;
+  margin: 5px 25%;
+  border-radius: 5px;
+  padding: 0.3rem;
+
 }
 
 

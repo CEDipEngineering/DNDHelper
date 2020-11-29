@@ -1,18 +1,24 @@
 import React from 'react'
-import { Table, Container, Button, ListGroupItem, Input, Collapse, ButtonGroup } from "reactstrap";
+import { Table, 
+         Container, 
+         Button, 
+         ListGroupItem, 
+         Input, 
+         Collapse, 
+         ButtonGroup } from "reactstrap";
 
 class EncounterRow extends React.Component {
     constructor(props) {
         super()
         this.state = {
-            loading: true,
+            loading: true
         }
-
     }
 
     componentDidMount() {
         this.setState({ loading: false })
     }
+
     render() {
         if (!this.state.loading && this.props.encounterInfo) {
             console.log(this.props)

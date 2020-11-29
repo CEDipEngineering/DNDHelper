@@ -1,0 +1,23 @@
+.big-container {
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: repeat(4, 200px);
+    justify-content: space-between;
+    width: 30%;
+    margin-left: 25%;
+    margin-top: 30px;
+}
+
+.little-container {
+    border: solid 6px #cfa211;
+    border-radius: 10px;
+    background-color:  #f5dfdc;
+    height: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10%;
+    margin-bottom: 40px;
+}

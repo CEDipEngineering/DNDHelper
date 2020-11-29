@@ -1,0 +1,439 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SpellTabel Randering pageSpells with no Spells or Filter 1`] = `
+<tr>
+  <div>
+    <thead>
+      <tr>
+        <th>
+          <Input
+            type="text"
+          />
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            id="filter"
+            tag="button"
+          >
+            Search
+          </Button>
+        </th>
+      </tr>
+      <th
+        colspan="4"
+      >
+        <Button
+          color="secondary"
+          outline={true}
+          style={
+            Object {
+              "backgroundColor": "#808080",
+              "color": "#FFFFFF",
+            }
+          }
+          tag="button"
+          value="prev"
+        >
+          Previous
+        </Button>
+      </th>
+      <th>
+        <Button
+          color="secondary"
+          outline={true}
+          style={
+            Object {
+              "backgroundColor": "#808080",
+              "color": "#FFFFFF",
+            }
+          }
+          tag="button"
+          value="next"
+        >
+          Next
+        </Button>
+      </th>
+      <tr>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="name"
+          >
+            Name
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="school"
+          >
+            school
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="level"
+          >
+            Level
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="component"
+          >
+            Component
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="class"
+          >
+            Class
+          </Button>
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+    <th
+      colspan="4"
+    >
+      <Button
+        color="secondary"
+        outline={true}
+        style={
+          Object {
+            "backgroundColor": "#808080",
+            "color": "#FFFFFF",
+          }
+        }
+        tag="button"
+        value="prev"
+      >
+        Previous
+      </Button>
+    </th>
+    <th>
+      <Button
+        color="secondary"
+        outline={true}
+        style={
+          Object {
+            "backgroundColor": "#808080",
+            "color": "#FFFFFF",
+          }
+        }
+        tag="button"
+        value="next"
+      >
+        Next
+      </Button>
+    </th>
+  </div>
+</tr>
+`;
+
+exports[`SpellTabel Randering pageSpells with one spell and no Filter 1`] = `
+<tr>
+  <div>
+    <thead>
+      <tr>
+        <th>
+          <Input
+            type="text"
+          />
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            id="filter"
+            tag="button"
+          >
+            Search
+          </Button>
+        </th>
+      </tr>
+      <th
+        colspan="4"
+      >
+        <Button
+          color="secondary"
+          outline={true}
+          style={
+            Object {
+              "backgroundColor": "#808080",
+              "color": "#FFFFFF",
+            }
+          }
+          tag="button"
+          value="prev"
+        >
+          Previous
+        </Button>
+      </th>
+      <th>
+        <Button
+          color="secondary"
+          outline={true}
+          style={
+            Object {
+              "backgroundColor": "#808080",
+              "color": "#FFFFFF",
+            }
+          }
+          tag="button"
+          value="next"
+        >
+          Next
+        </Button>
+      </th>
+      <tr>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="name"
+          >
+            Name
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="school"
+          >
+            school
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="level"
+          >
+            Level
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="component"
+          >
+            Component
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="class"
+          >
+            Class
+          </Button>
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+    <th
+      colspan="4"
+    >
+      <Button
+        color="secondary"
+        outline={true}
+        style={
+          Object {
+            "backgroundColor": "#808080",
+            "color": "#FFFFFF",
+          }
+        }
+        tag="button"
+        value="prev"
+      >
+        Previous
+      </Button>
+    </th>
+    <th>
+      <Button
+        color="secondary"
+        outline={true}
+        style={
+          Object {
+            "backgroundColor": "#808080",
+            "color": "#FFFFFF",
+          }
+        }
+        tag="button"
+        value="next"
+      >
+        Next
+      </Button>
+    </th>
+  </div>
+</tr>
+`;
+
+exports[`SpellTabel Randering with no spells 1`] = `
+<tr>
+  <div>
+    <thead>
+      <tr>
+        <th>
+          <Input
+            type="text"
+          />
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            id="filter"
+            tag="button"
+          >
+            Search
+          </Button>
+        </th>
+      </tr>
+      <th
+        colspan="4"
+      >
+        <Button
+          color="secondary"
+          outline={true}
+          style={
+            Object {
+              "backgroundColor": "#808080",
+              "color": "#FFFFFF",
+            }
+          }
+          tag="button"
+          value="prev"
+        >
+          Previous
+        </Button>
+      </th>
+      <th>
+        <Button
+          color="secondary"
+          outline={true}
+          style={
+            Object {
+              "backgroundColor": "#808080",
+              "color": "#FFFFFF",
+            }
+          }
+          tag="button"
+          value="next"
+        >
+          Next
+        </Button>
+      </th>
+      <tr>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="name"
+          >
+            Name
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="school"
+          >
+            school
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="level"
+          >
+            Level
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="component"
+          >
+            Component
+          </Button>
+        </th>
+        <th>
+          <Button
+            color="secondary"
+            outline={true}
+            tag="button"
+            value="class"
+          >
+            Class
+          </Button>
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+    <th
+      colspan="4"
+    >
+      <Button
+        color="secondary"
+        outline={true}
+        style={
+          Object {
+            "backgroundColor": "#808080",
+            "color": "#FFFFFF",
+          }
+        }
+        tag="button"
+        value="prev"
+      >
+        Previous
+      </Button>
+    </th>
+    <th>
+      <Button
+        color="secondary"
+        outline={true}
+        style={
+          Object {
+            "backgroundColor": "#808080",
+            "color": "#FFFFFF",
+          }
+        }
+        tag="button"
+        value="next"
+      >
+        Next
+      </Button>
+    </th>
+  </div>
+</tr>
+`;
