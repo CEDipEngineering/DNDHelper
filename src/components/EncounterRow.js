@@ -11,14 +11,14 @@ class EncounterRow extends React.Component {
     constructor(props) {
         super()
         this.state = {
-            loading: true,
+            loading: true
         }
-
     }
 
     componentDidMount() {
         this.setState({ loading: false })
     }
+
     render() {
         if (!this.state.loading && this.props.encounterInfo) {
             console.log(this.props)
