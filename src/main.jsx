@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, Input, Row, Col, Form, FormGroup} from "reactstrap";
+import { Table, Container, TabContent, TabPane, Nav, NavItem, NavLink, Button, ListGroup, Input, Row, Col, Form, FormGroup } from "reactstrap";
 import classnames from 'classnames';
 import MonsterTable from './components/MonsterTable'
 import SpellTable from './components/SpellTable'
@@ -25,43 +25,43 @@ export default class Login extends Component {
 
         this.state = {
             classes: [
-                {class: 'Barbarian', checked: true}, 
-                {class: 'Bard', checked: true}, 
-                {class: 'Cleric', checked: true}, 
-                {class: 'Druid',   checked: true}, 
-                {class: 'Fighter', checked: true}, 
-                {class: 'Monk', checked: true},
-                {class: 'Paladin', checked: true},
-                {class: 'Ranger', checked: true},
-                {class: 'Rogue', checked: true}, 
-                {class: 'Sorcerer', checked: true},
-                {class: 'Warlock', checked: true},
-                {class: 'Wizard', checked: true} 
+                { class: 'Barbarian', checked: true },
+                { class: 'Bard', checked: true },
+                { class: 'Cleric', checked: true },
+                { class: 'Druid', checked: true },
+                { class: 'Fighter', checked: true },
+                { class: 'Monk', checked: true },
+                { class: 'Paladin', checked: true },
+                { class: 'Ranger', checked: true },
+                { class: 'Rogue', checked: true },
+                { class: 'Sorcerer', checked: true },
+                { class: 'Warlock', checked: true },
+                { class: 'Wizard', checked: true }
             ],
             schools: [
-                {school: 'Conjuration', checked: true}, 
-                {school: 'Necromancy', checked: true}, 
-                {school: 'Evocation', checked: true}, 
-                {school: 'Abjuration',   checked: true}, 
-                {school: 'Transmutation', checked: true}, 
-                {school: 'Divination', checked: true},
-                {school: 'Enchantment', checked: true},
-                {school: 'Illusion', checked: true}
+                { school: 'Conjuration', checked: true },
+                { school: 'Necromancy', checked: true },
+                { school: 'Evocation', checked: true },
+                { school: 'Abjuration', checked: true },
+                { school: 'Transmutation', checked: true },
+                { school: 'Divination', checked: true },
+                { school: 'Enchantment', checked: true },
+                { school: 'Illusion', checked: true }
             ],
             levels: [
-                {level: '1st-level', checked: true}, 
-                {level: '2nd-level', checked: true}, 
-                {level: '3rd-level', checked: true}, 
-                {level: '4th-level', checked: true}, 
-                {level: '5th-level', checked: true}, 
-                {level: '6th-level', checked: true}, 
-                {level: '7th-level', checked: true},
-                {level: '8th-level', checked: true},
-                {level: 'Cantrip', checked: true}
+                { level: '1st-level', checked: true },
+                { level: '2nd-level', checked: true },
+                { level: '3rd-level', checked: true },
+                { level: '4th-level', checked: true },
+                { level: '5th-level', checked: true },
+                { level: '6th-level', checked: true },
+                { level: '7th-level', checked: true },
+                { level: '8th-level', checked: true },
+                { level: 'Cantrip', checked: true }
             ],
             listMonsters: [],
             data: [],
-            dataSpell:[],
+            dataSpell: [],
             page: 1,
             aapple: {
                 "name": "Aapple",
@@ -87,7 +87,7 @@ export default class Login extends Component {
                 "alignment": false
             },
             monsterUrl: "https://api.open5e.com/monsters/?search=",
-            spellUrl :"https://api.open5e.com/spells/?search=",
+            spellUrl: "https://api.open5e.com/spells/?search=",
             filter: "",
             filtering: "",
             proceed: true,
@@ -98,21 +98,21 @@ export default class Login extends Component {
             randomMonsters: [],
             idList: [],
             refresh: false
-            
+
         }
 
         axios.get("https://api.open5e.com/classes/")
             .then((response) => {
                 var obj = response.data.results;
-                
+
                 var len = obj.length;
-                for (var i = 0; i<len; i++) {
+                for (var i = 0; i < len; i++) {
                     var name = obj[i].name;
                     classesList.push(name)
                 }
             })
-            console.log("CLASSES: ",classesList)
-        
+        console.log("CLASSES: ", classesList)
+
 
         // console.log("encounter selected: ", this.state.encSelected)
         this.getMonsters = this.getMonsters.bind(this);
@@ -155,7 +155,7 @@ export default class Login extends Component {
     }
 
     async checkSpell(event) {
-        
+
         this.setState({ proceed: false })
         await this.sleep(1000)
         this.setState(state => {
@@ -164,15 +164,11 @@ export default class Login extends Component {
         })
         var name = event.target.value
         var url = "https://api.open5e.com/spells/?ordering=" + name
-<<<<<<< HEAD
-        //console.log("URL PORRA", url)
-=======
->>>>>>> d8e686b4b22cf2f04ad2f5e39397b209375bc8fc
         this.getSpells(url)
     }
 
-    handleRefresh(){
-        this.setState({refresh: true})
+    handleRefresh() {
+        this.setState({ refresh: true })
         this.forceUpdate();
     }
 
@@ -199,11 +195,10 @@ export default class Login extends Component {
             state.data = []
             state.proceed = true
         })
-        
+
         this.getMonsters(this.state.monsterUrl + this.state.filter)
     }
 
-<<<<<<< HEAD
     async searchSpell() {
         this.setState(state => {
             state.proceed = false
@@ -220,10 +215,8 @@ export default class Login extends Component {
     }
 
 
-=======
->>>>>>> d8e686b4b22cf2f04ad2f5e39397b209375bc8fc
     getMonsters(url) {
-       axios.get(url)
+        axios.get(url)
             .then(resp => {
                 var { data } = this.state
                 var newdata = data.concat(resp.data.results)
@@ -237,11 +230,7 @@ export default class Login extends Component {
                 }
             })
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> d8e686b4b22cf2f04ad2f5e39397b209375bc8fc
     getSpells(url) {
         console.log(url)
         axios.get(url)
@@ -263,7 +252,7 @@ export default class Login extends Component {
             })
     }
 
-    nextPage(event){
+    nextPage(event) {
 
         var handleState = (state, event) => {
             state.page = state.page + 1
@@ -274,10 +263,10 @@ export default class Login extends Component {
         var url = "https://api.open5e.com/spells/?page=" + this.state.page
         this.getSpells(url)
         console.log(url)
-    }  
+    }
 
 
-    previousPage(event){
+    previousPage(event) {
         var handleState = (state, event) => {
             state.page = state.page - 1
             state.dataSpell = []
@@ -290,7 +279,7 @@ export default class Login extends Component {
     }
 
     componentDidMount() {
-        
+
         var url = "https://api.open5e.com/monsters/"
         var urls = "https://api.open5e.com/spells/"
         this.getMonsters(url)
@@ -370,7 +359,7 @@ export default class Login extends Component {
 
     handleFilter(event) {
         var handleState = (state, event) => {
-            state.classes.find(obj=> obj.class == event.target.name).checked = event.target.checked
+            state.classes.find(obj => obj.class == event.target.name).checked = event.target.checked
             var name = event.target.name
             return state
         }
@@ -380,7 +369,7 @@ export default class Login extends Component {
 
     handleSchool(event) {
         var handleState = (state, event) => {
-            state.schools.find(obj=> obj.school == event.target.name).checked = event.target.checked
+            state.schools.find(obj => obj.school == event.target.name).checked = event.target.checked
             var name = event.target.name
             return state
         }
@@ -390,7 +379,7 @@ export default class Login extends Component {
 
     handleLevel(event) {
         var handleState = (state, event) => {
-            state.levels.find(obj=> obj.level == event.target.name).checked = event.target.checked
+            state.levels.find(obj => obj.level == event.target.name).checked = event.target.checked
             var name = event.target.name
             return state
         }
@@ -412,7 +401,7 @@ export default class Login extends Component {
         var url = "https://backend-dnd.herokuapp.com/users/user/" + this.state.user._id
         axios.put(url, this.state.user)
             .then(resp => {
-               this.setState((state) => {
+                this.setState((state) => {
                     state.user = resp.data
                     state.loggedUser = resp.data.username
                 })
@@ -549,35 +538,35 @@ export default class Login extends Component {
 
         var monstersArray = this.state.data
         var tableMonsters = <MonsterTable monsterInfo={monstersArray}
-                                          allCallbacks={{ filter: { 
-                                                func: this.filter,
-                                                state: this.state.filter },
-                                          search: this.search,
-                                          check: this.checkMonster,
-                                          addMonster: this.addMonster }} />;
+            allCallbacks={{
+                filter: {
+                    func: this.filter,
+                    state: this.state.filter
+                },
+                search: this.search,
+                check: this.checkMonster,
+                addMonster: this.addMonster
+            }} />;
 
         var spellsArray = this.state.dataSpell
-<<<<<<< HEAD
-        console.log(spellsArray)
-        var tableSpells = <SpellTable levels_filter={this.state.levels} schools_filter={this.state.schools} classes_filter={this.state.classes} spellInfo={spellsArray} allCallbacks={{ filter: { func: this.filter, state: this.state.filter }, search: this.searchSpell, check: this.checkSpell, next: this.nextPage, previous : this.previousPage }} />;
-
-=======
         var tableSpells = <SpellTable spellInfo={spellsArray}
-                                      allCallbacks={{ 
-                                          filter: { func: this.filter, 
-                                                    state: this.state.filter }, 
-                                          check: this.checkSpell }} />;
->>>>>>> d8e686b4b22cf2f04ad2f5e39397b209375bc8fc
-        
+            allCallbacks={{
+                filter: {
+                    func: this.filter,
+                    state: this.state.filter
+                },
+                check: this.checkSpell
+            }} />;
+
         var encountersArray = this.state.user.encounters
-        var tableEncounters = <EncounterRow encounterInfo={encountersArray} 
-                                            allCallbacks={{
-                                                handleLife: this.handleMonsterLife,
-                                                remove: this.removeMonster,
-                                                toggleCollapse: this.toggleCollapse,
-                                                deleteEncounter: this.deleteEncounter
-                                            }} 
-                                            refresh={this.state.refresh} />
+        var tableEncounters = <EncounterRow encounterInfo={encountersArray}
+            allCallbacks={{
+                handleLife: this.handleMonsterLife,
+                remove: this.removeMonster,
+                toggleCollapse: this.toggleCollapse,
+                deleteEncounter: this.deleteEncounter
+            }}
+            refresh={this.state.refresh} />
 
         // console.log(encountersArray)
         var selectEncounters = [];
@@ -590,7 +579,7 @@ export default class Login extends Component {
         // console.log("props", this.props)
         // console.log("tableMonsters:", tableMonsters)
         // console.log("props state: ", this.props.state)
-        const settingsPage = <AccountSettings state = {this.props.state} allCallbacks={{handleChange: this.handleChange, editInfo: this.editInfo}}/>
+        const settingsPage = <AccountSettings state={this.props.state} allCallbacks={{ handleChange: this.handleChange, editInfo: this.editInfo }} />
 
 
         const activeTab = this.state.activeTab
@@ -605,11 +594,11 @@ export default class Login extends Component {
         */
 
         const diceList = []
-        
+
         diceList.push(
-        <Col  className="d4">
-            <Dice number={4} ></Dice>
-        </Col>)
+            <Col className="d4">
+                <Dice number={4} ></Dice>
+            </Col>)
 
         diceList.push(
             <Col className="d6">
@@ -632,18 +621,18 @@ export default class Login extends Component {
             </Col>)
 
         diceList.push(
-            <Col className="d20"> 
+            <Col className="d20">
                 <Dice number={20} ></Dice>
             </Col>)
 
 
         var renderREG;
         if (this.state.data.length == 1086) {
-            renderREG = <REG user = {this.state.user}
-                             data = {this.state.data}
-                             handleRefresh = {this.handleRefresh}/>
+            renderREG = <REG user={this.state.user}
+                data={this.state.data}
+                handleRefresh={this.handleRefresh} />
 
-        }else{
+        } else {
             renderREG = <p> loading... </p>
         }
         return (
@@ -699,35 +688,35 @@ export default class Login extends Component {
                                 <div className="little-container">
                                     {this.state.classes.map(classe => {
                                         return (
-                                        <div>
-                                            <input type="checkbox" name={classe.class} checked={this.state.classes.find(obj => obj.class == classe.class).checked} onChange={this.handleFilter}/>
-                                            {classe.class}
-                                        </div>
+                                            <div>
+                                                <input type="checkbox" name={classe.class} checked={this.state.classes.find(obj => obj.class == classe.class).checked} onChange={this.handleFilter} />
+                                                {classe.class}
+                                            </div>
                                         )
                                     })}
                                 </div>
                                 <div className="little-container">
                                     {this.state.schools.map(school => {
                                         return (
-                                        <div>
-                                            <input type="checkbox" name={school.school} checked={this.state.schools.find(obj => obj.school == school.school).checked} onChange={this.handleSchool}/>
-                                            {school.school}
-                                        </div>
+                                            <div>
+                                                <input type="checkbox" name={school.school} checked={this.state.schools.find(obj => obj.school == school.school).checked} onChange={this.handleSchool} />
+                                                {school.school}
+                                            </div>
                                         )
                                     })}
                                 </div>
                                 <div className="little-container">
                                     {this.state.levels.map(level => {
                                         return (
-                                        <div>
-                                            <input type="checkbox" name={level.level} checked={this.state.levels.find(obj => obj.level == level.level).checked} onChange={this.handleLevel}/>
-                                            {level.level}
-                                        </div>
+                                            <div>
+                                                <input type="checkbox" name={level.level} checked={this.state.levels.find(obj => obj.level == level.level).checked} onChange={this.handleLevel} />
+                                                {level.level}
+                                            </div>
                                         )
                                     })}
                                 </div>
                             </div>
-                            
+
                             <Table borderless striped>
                                 {tableSpells}
                             </Table>
@@ -753,17 +742,17 @@ export default class Login extends Component {
                                         </FormGroup>
                                         <FormGroup>
                                             <Button color="success" onClick={this.newEncounter}>Add Encounter</Button>
-                                        </FormGroup> <br />                                            
+                                        </FormGroup> <br />
                                     </Form>
 
                                     <Form>
                                         {renderREG}
                                     </Form>
                                     <ListGroup>
-                                        {tableEncounters }
+                                        {tableEncounters}
 
                                     </ListGroup>
-         
+
                                 </Col>
                             </Row>
                         </Container>
@@ -772,7 +761,7 @@ export default class Login extends Component {
                                 <h5 id="diceHeader">Roll Dice</h5>
                                 <Container>
                                     <Row>
-                                        {diceList}    
+                                        {diceList}
                                     </Row>
                                     <p id="imgSrc">Images from <a href={"https://thenounproject.com/"}>The Noun Project</a></p>
                                 </Container>
@@ -782,4 +771,6 @@ export default class Login extends Component {
                 </TabContent>
 
             </div>
-        ) } }
+        )
+    }
+}
