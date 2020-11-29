@@ -10,29 +10,8 @@ class SpellTable extends React.Component {
             loading: true,
             counter: counter,
         }
-        this.incCounter = this.incCounter.bind(this);
-        this.decCounter = this.decCounter.bind(this);
     }
-    incCounter() {
-        this.setState({
-            count : this.state.counter+=10
-        });
-        console.log(this.state.counter)
-    }
-    decCounter() {
-        var n;
-        if (this.state.counter == 0) {
-            n = 0
-        } else if (this.state.counter <= 10) {
-            n = 1
-        } else {
-            n = 10
-        }
-        this.setState({
-            count : this.state.counter-=n
-        });
-        console.log(this.state.counter)
-    }
+   
     componentDidMount(){
         this.setState({loading: false, counter: counter})
     }
@@ -50,7 +29,7 @@ class SpellTable extends React.Component {
                             } else {
                                 nameList.push(spellsArray[i].name)
                                 rows.push(
-                                    <tr>
+                                <tr>
                                     <td><a href={"https://open5e.com/spells/" + spellsArray[i].slug}>{spellsArray[i].name}</a></td>
                                     <td>{spellsArray[i].school}</td>
                                     <td>{spellsArray[i].level}</td>
@@ -86,14 +65,8 @@ class SpellTable extends React.Component {
                             </tr>
                         </thead>
                         <tbody>               
-                            {rows.slice(0,this.state.counter)}
+                            {rows}
                         </tbody>
-                        <button onClick={this.incCounter}>
-                            Show More
-                        </button>
-                        <button onClick={this.decCounter}>
-                            Show Less
-                        </button>
                         <th colspan="4" ><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="prev" onClick={this.props.allCallbacks.previous}>Previous</Button></th>
                         <th><Button style = {{backgroundColor: "#808080",color : "#FFFFFF"}} outline value="next" onClick={this.props.allCallbacks.next}>Next</Button></th>
 
