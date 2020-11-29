@@ -1,6 +1,17 @@
-import React, { Component , Fragment} from 'react'
+import React from 'react'
 import { Input, Button } from "reactstrap";
-import { FacebookShareButton, RedditShareButton, TwitterShareButton, WhatsappShareButton, EmailShareButton, FacebookIcon, RedditIcon, EmailIcon, TwitterIcon, WhatsappIcon , TelegramShareButton , TelegramIcon } from 'react-share';
+import { FacebookShareButton, 
+         RedditShareButton, 
+         TwitterShareButton, 
+         WhatsappShareButton, 
+         EmailShareButton, 
+         FacebookIcon, 
+         RedditIcon, 
+         EmailIcon, 
+         TwitterIcon, 
+         WhatsappIcon , 
+         TelegramShareButton , 
+         TelegramIcon } from 'react-share';
 
 
 class MonsterTable extends React.Component {

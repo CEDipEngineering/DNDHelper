@@ -35,11 +35,7 @@ export default class Login extends Component {
                     this.props.history.push("/")
                 }
             })
-            .catch((erro) => {
-                this.setState({
-                    error: erro.response.data.error
-                })
-            });
+            .catch((erro) => {console.log(erro)});
     }
 
     handleChange(event) {

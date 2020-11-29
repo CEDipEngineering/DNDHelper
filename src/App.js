@@ -4,9 +4,7 @@ import './App.css';
 import Register from './regis'
 import Login from './login'
 import Main from './main'
-import Encounter from './encounter'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Routes from './routes'
 
 
 export default class App extends Component {

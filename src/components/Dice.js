@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+
 
 class Dice extends React.Component {
     constructor(props) {
